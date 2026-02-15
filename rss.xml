@@ -1,0 +1,14 @@
+<rss version="2.0">
+    <channel>
+        <title>Simar's feed</title>
+        <description>Simar's feed</description>
+        <link>https://laguna-dream.github.io/</link>
+        <item>
+            <title>music making</title>
+            <link>https://laguna-dream.github.io/writing/musicmaking.html</link>
+            <guid isPermaLink="true">https://laguna-dream.github.io/writing/musicmaking.html</guid>
+            <pubDate>Sun, 15 Feb 2026 04:28:30 GMT</pubDate>
+            <author>simar</author>
+        </item>
+    </channel>
+</rss>
