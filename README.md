@@ -22,6 +22,24 @@ This will:
 - Generate `rss.xml` with the 20 most recent posts
 - Sort by date (most recent first)
 
+### Archiving bookshelf to garden
+When you update the "bookshelf" section on the homepage with new links:
+```bash
+npm run archive
+```
+
+This will:
+- Scan all links in the bookshelf section of `index.html`
+- Check which items aren't already in `pages/garden.html`
+- Automatically add new items to garden with timestamp
+- Preserve tags (music, blog, tv, etc.) from link titles
+
+**Workflow:**
+1. Add/update items in bookshelf on homepage (recent consumption)
+2. Run `npm run archive`
+3. New items are automatically saved to garden as permanent archive
+4. Remove old items from bookshelf, they stay in garden
+
 ### Dark mode
 Click the ☾/☀ button in the top-right corner. Preference persists via localStorage.
 
@@ -64,8 +82,14 @@ Click the ☾/☀ button in the top-right corner. Preference persists via localS
 ### Notebook entry
 Just add a new `.notebook-entry` div to `pages/notebook.html` at the top.
 
-### Garden link
+### Bookshelf (homepage)
+1. Add links to the bookshelf section on `index.html`
+2. Run `npm run archive` to auto-archive to garden
+3. Update/remove bookshelf items as needed (archives remain in garden)
+
+### Garden link (manual)
 Add a new `.link-item` to `pages/garden.html` with appropriate `data-tags`.
+Or use `npm run archive` to auto-archive bookshelf items (recommended).
 
 ## Features
 

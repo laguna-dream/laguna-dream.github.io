@@ -4,7 +4,8 @@
   "description": "personal website",
   "scripts": {
     "rss": "node build-rss.js",
-    "build": "node build-rss.js"
+    "archive": "node archive-bookshelf.js",
+    "build": "node build-rss.js && node archive-bookshelf.js"
   },
   "author": "simar",
   "license": "MIT"
