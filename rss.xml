@@ -1,14 +1,52 @@
-<rss version="2.0">
-    <channel>
-        <title>Simar's feed</title>
-        <description>Simar's feed</description>
-        <link>https://laguna-dream.github.io/</link>
-        <item>
-            <title>music making</title>
-            <link>https://laguna-dream.github.io/writing/musicmaking.html</link>
-            <guid isPermaLink="true">https://laguna-dream.github.io/writing/musicmaking.html</guid>
-            <pubDate>Sun, 15 Feb 2026 04:28:30 GMT</pubDate>
-            <author>simar</author>
-        </item>
-    </channel>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>seafoam palace</title>
+    <link>https://laguna-dream.github.io</link>
+    <description>writing, thoughts, and curios</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Feb 2026 21:23:55 GMT</lastBuildDate>
+    <atom:link href="https://laguna-dream.github.io/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>ocean</title>
+      <link>https://laguna-dream.github.io/writing/predictions.html</link>
+      <guid>https://laguna-dream.github.io/writing/predictions.html</guid>
+      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
+      <category>writing</category>
+      <description></description>
+    </item>
+    <item>
+      <title>ocean</title>
+      <link>https://laguna-dream.github.io/writing/new.html</link>
+      <guid>https://laguna-dream.github.io/writing/new.html</guid>
+      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
+      <category>writing</category>
+      <description></description>
+    </item>
+    <item>
+      <title>ocean</title>
+      <link>https://laguna-dream.github.io/writing/musicmaking.html</link>
+      <guid>https://laguna-dream.github.io/writing/musicmaking.html</guid>
+      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
+      <category>writing</category>
+      <description></description>
+    </item>
+    <item>
+      <title>ocean</title>
+      <link>https://laguna-dream.github.io/writing/meaningoflife.html</link>
+      <guid>https://laguna-dream.github.io/writing/meaningoflife.html</guid>
+      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
+      <category>writing</category>
+      <description></description>
+    </item>
+    <item>
+      <title>Example Album</title>
+      <link>https://laguna-dream.github.io/curios/example.html</link>
+      <guid>https://laguna-dream.github.io/curios/example.html</guid>
+      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
+      <category>curios</category>
+      <description>feb 2026 · this is a sample post</description>
+    </item>
+  </channel>
 </rss>

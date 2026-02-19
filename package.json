@@ -1,0 +1,11 @@
+{
+  "name": "seafoam-palace",
+  "version": "1.0.0",
+  "description": "personal website",
+  "scripts": {
+    "rss": "node build-rss.js",
+    "build": "node build-rss.js"
+  },
+  "author": "simar",
+  "license": "MIT"
+}
