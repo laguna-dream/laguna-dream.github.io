@@ -45,17 +45,19 @@
         toggleBtn.textContent = darkModeEnabled ? '☀' : '☾';
     });
 
-    // inject footer with RSS link
-    const footer = document.createElement('footer');
-    footer.className = 'site-footer';
-    footer.innerHTML = `
-        <a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="RSS Feed">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 11a9 9 0 0 1 9 9"></path>
-                <path d="M4 4a16 16 0 0 1 16 16"></path>
-                <circle cx="5" cy="19" r="1"></circle>
-            </svg>
-        </a>
-    `;
-    document.body.appendChild(footer);
+    // inject footer with RSS link at the very end of page load
+    window.addEventListener('load', () => {
+        const footer = document.createElement('footer');
+        footer.className = 'site-footer';
+        footer.innerHTML = `
+            <a href="/rss.xml" target="_blank" rel="noopener noreferrer" title="RSS Feed">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 11a9 9 0 0 1 9 9"></path>
+                    <path d="M4 4a16 16 0 0 1 16 16"></path>
+                    <circle cx="5" cy="19" r="1"></circle>
+                </svg>
+            </a>
+        `;
+        document.body.appendChild(footer);
+    });
 })();
