@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/shared.css">
-    <link rel="alternate" type="application/rss+xml" title="seafoam palace RSS" href="/rss.xml">
     <title>garden - seafoam palace</title>
 
     <style>
@@ -91,9 +90,16 @@
 
         <div class="filters">
             <button class="active" onclick="filterGarden('all', this)">all</button>
+            <button onclick="filterGarden('recent', this)">recent</button>
+            <button onclick="filterGarden('formative', this)">formative</button>
+            <span style="color: #ddd; margin: 0 4px;">|</span>
             <button onclick="filterGarden('music', this)">music</button>
-            <button onclick="filterGarden('blog', this)">blog</button>
+            <button onclick="filterGarden('film', this)">film</button>
+            <button onclick="filterGarden('book', this)">book</button>
             <button onclick="filterGarden('tv', this)">tv</button>
+            <button onclick="filterGarden('blog', this)">blog</button>
+            <button onclick="filterGarden('game', this)">game</button>
+            <button onclick="filterGarden('podcast', this)">podcast</button>
         </div>
 
         <div class="link-item" data-tags="music">
@@ -121,7 +127,7 @@
             <div class="caption">i enjoyed this episode.</div>
         </div>
 
-        <div class="link-item" data-tags="tv">
+        <div class="link-item" data-tags="formative tv">
             <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv: freaks and geeks episode 1</a>
             <div class="caption">rewatched recently. timeless, funny.
                 on becoming, figuring. poking at social order and constructs.

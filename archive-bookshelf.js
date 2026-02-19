@@ -44,7 +44,7 @@ function parseBookshelfItems(indexHTML) {
         const caption = captionMatch ? captionMatch[1].trim() : '';
 
         // Extract tag from title (e.g., "music:", "blog:", "tv:")
-        const tagMatch = title.match(/^(music|blog|tv|film|book|podcast):/i);
+        const tagMatch = title.match(/^(music|blog|tv|film|book|podcast|game):/i);
         const tag = tagMatch ? tagMatch[1].toLowerCase() : 'bookshelf';
 
         items.push({ url, title, caption, tag });
@@ -72,7 +72,7 @@ function createGardenItem(item) {
     const date = getCurrentDate();
 
     return `
-        <div class="link-item" data-tags="${item.tag}">
+        <div class="link-item" data-tags="recent ${item.tag}">
             <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
             <div class="caption">${item.caption}${item.caption ? ' — ' : ''}archived ${date}</div>
         </div>`;
