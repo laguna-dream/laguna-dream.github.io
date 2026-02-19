@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>seafoam palace</title>
 
     <style>
@@ -9,26 +11,15 @@
             margin: 0;
             padding: 20px;
             font-family: 'Times New Roman', Times, serif;
-            text-align: center;
         }
 
         header {
+            text-align: center;
             padding: 20px;
-            font-family: 'Tr
-
         }
-
-        .caption {
-            font-size: 13px;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-
-        }
-
-        p {}
 
         nav {
+            text-align: center;
             padding: 10px;
         }
 
@@ -38,124 +29,295 @@
             color: blue;
         }
 
-        .gif-space {
-            padding: 30px;
-            margin: 20px auto;
-            animation: float 3s ease-in-out infinite;
+        .intro {
+            text-align: center;
+            font-size: 0.95rem;
+            max-width: 340px;
+            margin: 10px auto 24px;
         }
 
-        @keyframes float {
+        /* -- single column, centered -- */
+        .page-content {
+            max-width: 290px;
+            margin: 50px auto 0;
+            text-align: left;
+        }
 
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
+        /* -- castle stack -- */
+        .castle-stack {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            margin: 29px auto 29px;
+            overflow: visible;
+        }
 
-            50% {
-                transform: translateY(-20px);
-            }
+        .castle-stack img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
 
-            .container {
-                display: flex;
-                flex-direction: row;
-                background-color: DodgerBlue;
-                font-size: 10px;
+        /* castle1 = scenery, natural aspect ratio — only width set */
+        .castle-stack img:nth-child(1) { width: 320px; height: auto; transform: translate(0px, 0px); }
 
-            }
+        /* the three smaller castles — tweak sizes here */
+        .castle-stack img:nth-child(2) { width: 112px; height: 112px; transform: translate(-80px,  58px); }
+        .castle-stack img:nth-child(3) { width:  94px; height:  94px; transform: translate(322px,  30px); }
+        .castle-stack img:nth-child(4) { width:  72px; height:  72px; transform: translate( 22px,  50px); }
 
-            .container div {
-                background-color: #980000;
-                margin: 10px;
-                padding: 20px;
-                font-size: 10px;
+        /* castle3 copies in the whitespace left and right of castle1 */
+        .castle-stack img:nth-child(5) { width:  80px; height:  80px; transform: translate(-224px,  44px); }
+        .castle-stack img:nth-child(6) { width:  76px; height:  76px; transform: translate(-176px, 136px); }
+        .castle-stack img:nth-child(7) { width:  84px; height:  84px; transform: translate( 408px,  64px); }
 
-            }
+        /* hover: nudge each castle randomly */
+        .castle-stack:hover img:nth-child(1) { transform: translate(2px, -1px); }
+        .castle-stack:hover img:nth-child(2) { transform: translate(-87px,  67px); }
+        .castle-stack:hover img:nth-child(3) { transform: translate(329px,  21px); }
+        .castle-stack:hover img:nth-child(4) { transform: translate( 14px,  41px); }
+        .castle-stack:hover img:nth-child(5) { transform: translate(-233px,  48px); }
+        .castle-stack:hover img:nth-child(6) { transform: translate(-168px, 145px); }
+        .castle-stack:hover img:nth-child(7) { transform: translate( 417px,  55px); }
+
+        /* -- links -- */
+        .links-section {
+            margin-bottom: 24px;
+        }
+
+        .links-section b {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .link-item {
+            margin: 8px 0;
+        }
+
+        .link-item a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+
+        .link-item a:hover { text-decoration: underline; }
+
+        .caption {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* -- sections -- */
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section b {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .section a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .section a:hover { text-decoration: underline; }
+
+        .section small {
+            font-size: 0.88rem;
+            line-height: 1.9;
+            display: block;
+            margin-top: 6px;
+        }
+
+        /* -- in the works box -- */
+        .section.todo {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 10px 14px;
+            background: #f9f9f7;
+        }
+
+        /* -- credits -- */
+        .credits {
+            font-size: 0.6rem;
+            color: #aaa;
+            text-align: center;
+            margin: 60px auto 20px;
+            max-width: 400px;
+        }
+
+        .credits a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .credits a:hover { text-decoration: underline; }
+
+        /* -- writing tags -- */
+        .filters {
+            margin: 6px 0 8px;
+            font-size: 0.75rem;
+        }
+
+        .filters button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.75rem;
+            color: #999;
+            cursor: pointer;
+            padding: 1px 5px 1px 0;
+        }
+
+        .filters button:hover { color: blue; }
+        .filters button.active { color: blue; text-decoration: underline; }
+
+        .entry {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+
+        .entry a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+
+        .entry a:hover { text-decoration: underline; }
+
+        .tag-label {
+            font-size: 0.65rem;
+            color: #999;
+            margin-left: 10px;
+            white-space: nowrap;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1> seafoam palace</h1>
-    </header>
 
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
 
-    <nav>
-        <a href="/pages/writing.html">writing</a>
-        <a href="/pages/notebook.html">notebook</a>
-        <a href="/pages/curios.html">curios</a>
-    </nav>
-
-
-
-    <div class="gif-space">
-        <img src="/assets/giphy.gif" alt="Computer man" style="width:200px;height:200px;">
+    <div class="castle-stack">
+        <img src="assets/castle1.png" alt="castle scenery">
+        <img src="assets/castle.png"  alt="castle">
+        <img src="assets/castle2.png" alt="castle">
+        <img src="assets/castle3.png" alt="castle">
+        <img src="assets/castle3.png" alt="castle">
+        <img src="assets/castle3.png" alt="castle">
+        <img src="assets/castle3.png" alt="castle">
     </div>
-    <div class="container">
 
-        <p style="font-size: 10;"> hi, i'm simar. this website is under construction. here are a few things you can
-            take a look at. </p>
-        <br>
-        <b> links </b>
-        <br>
-        <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s">music: les rallizes
-            denudes 1970</a> <br>
-        <div class="caption">tender afternoon noise</div>
-        <br>
-        <br>
-        <a href="https://www.youtube.com/watch?v=fSRTHbtlLFc">music: the rest is noise</a><br>
-        <div class="caption">i like the bit at 2:04. the rest is noise.
+    <p class="intro">hi, i'm simar. this website is under construction. here are a few things you can take a look at.</p>
+
+    <div class="page-content">
+
+        <div class="links-section">
+            <b>bookshelf</b> <a href="/pages/garden.html" style="font-size:0.7rem; color:blue; text-decoration:none; margin-left:6px;">→ garden</a>
+            <p style="font-size:0.72rem; color:#999; margin:4px 0 12px;">stuff i'm recently consuming, updated regularly</p>
+
+            <div class="link-item">
+                <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s" target="_blank" rel="noopener noreferrer">music: les rallizes denudes 1970</a>
+                <div class="caption">tender afternoon noise</div>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.youtube.com/watch?v=fSRTHbtlLFc" target="_blank" rel="noopener noreferrer">music: the rest is noise</a>
+                <div class="caption">i like the bit at 2:04. the rest is noise.</div>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s" target="_blank" rel="noopener noreferrer">music: Lindsheaven Virtual Plaza — Rainforest Hill</a>
+                <div class="caption">good music to shut yourself in a room to. wet, metallic, tropical.</div>
+            </div>
+
+            <div class="link-item">
+                <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html" target="_blank" rel="noopener noreferrer">blog: savandurga - overnight stay one</a>
+                <div class="caption">endearing. i would like to collect more travel blogs/posts like this to build an archive, travel map/guide maybe.</div>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU" target="_blank" rel="noopener noreferrer">tv: anthony bourdain: parts unknown | miami</a>
+                <div class="caption">i enjoyed this episode.</div>
+            </div>
+
+            <div class="link-item">
+                <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv: freaks and geeks episode 1</a>
+                <div class="caption">rewatched recently. timeless, funny.
+                    on becoming, figuring. poking at social order and constructs.
+                    discovering its malleability. the breaking of illusions.</div>
+            </div>
         </div>
-        <br>
-        <br>
-        <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s">music:
-            Lindsheaven Virtual Plaza : Rainforest Hill (I + II)</a>
-        <br>
-        <div class="caption">good music to shut yourself in a room to. wet, metallic, tropical.</div>
-        <br>
-        <br>
-        <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html">blog: savandurga -
-            overnight stay one</a>
-        <br>
-        <div class="caption">endearing. i would like to collect more travel blogs/posts like this to build an archive,
-            travel map/guide maybe.
+
+        <div class="section">
+            <b>recent</b>
+            <a href="/writing/musicmaking.html">Music Making</a>
+            <a href="/writing/new.html">⊹ ࣪ ˖ oh of course i know how to write</a>
         </div>
-        <br>
-        <br>
-        <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU">tv: anthony bourdain: parts unknown | miami</a>
-        <br>
-        <div class="caption">i enjoyed this episode.</div>
-        <br>
-        <br>
-        <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI">tv: freaks and geeks episode 1</a>
-        <br>
-        <div class="caption">rewatched recently. timeless, funny.
-            on becoming, figuring. poking at social order and constructs.
-            discovering its malleability. the breaking of illusions.</div>
-        <br>
-        <br>
-        <b> recent</b>
-        <br>
-        <a href="/writing/musicmaking.html" class="article-link">Music Making</a>
-        <br>
-        <a href="/writing/new.html"> ⊹ ࣪ ˖ oh of course i know how to write</a>
-        <br>
-        <br>
-        <br>
-        <b>guide / things to do for this website</b>
-        <small> <br>
-            𓇙 curios: build a shelf to put interesting things i find on my current travels.
-            <br>
-            𓇙 garden: influences, archives, formative stuff
-            <br>
-            𓇙 notebook: for quick thoughts
-            <br>
-            𓇙 writing: longer thoughts
-            <br>
-            𓇙 figure out rss
-            <br>
-        </small>
+
+        <div class="section todo">
+            <b>in the works</b>
+            <small>
+                𓇙 curios: build a shelf to put interesting things i find on my current travels.<br>
+                𓇙 garden: influences, archives, formative stuff<br>
+                𓇙 notebook: for quick thoughts<br>
+                𓇙 writing: longer thoughts<br>
+                𓇙 figure out rss
+            </small>
+        </div>
+
     </div>
+
+    <p class="credits">ascii art credits: Fairy Queen by H P Barmario (Morfina) · Castle on Rock by Volker Hellmich · Northern Lights by D Rice</p>
+
+    <script>
+        // continuous castle hover effect
+        const castleStack = document.querySelector('.castle-stack');
+        const castles = castleStack.querySelectorAll('img');
+
+        // base positions from CSS
+        const basePositions = [
+            { x: 0, y: 0 },        // castle1 (scenery)
+            { x: -80, y: 58 },     // castle
+            { x: 322, y: 30 },     // castle2
+            { x: 22, y: 50 },      // castle3
+            { x: -224, y: 44 },    // castle3 left 1
+            { x: -176, y: 136 },   // castle3 left 2
+            { x: 408, y: 64 }      // castle3 right
+        ];
+
+        castleStack.addEventListener('mousemove', (e) => {
+            const rect = castleStack.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+            const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+            castles.forEach((castle, i) => {
+                const base = basePositions[i];
+                const moveAmount = i === 0 ? 2 : 8 + (i * 2); // scenery moves less
+                const newX = base.x + (x * moveAmount);
+                const newY = base.y + (y * moveAmount);
+                castle.style.transform = `translate(${newX}px, ${newY}px)`;
+            });
+        });
+
+        castleStack.addEventListener('mouseleave', () => {
+            castles.forEach((castle, i) => {
+                const base = basePositions[i];
+                castle.style.transform = `translate(${base.x}px, ${base.y}px)`;
+            });
+        });
+    </script>
+
 </body>
 
 </html>

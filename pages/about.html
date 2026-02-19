@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about - seafoam palace</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: blue;
+        }
+
+        /* -- layout -- */
+        .container {
+            display: flex;
+            align-items: flex-start;
+            gap: 50px;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        /* -- gif -- */
+        .portrait {
+            flex-shrink: 0;
+            width: 360px;
+        }
+
+        .portrait img {
+            width: 360px;
+            display: block;
+        }
+
+        /* -- right column -- */
+        .content {
+            flex: 1;
+            max-width: 400px;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        .content h2 {
+            margin-top: 0;
+            font-size: 0.95rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .content p {
+            margin: 0 0 28px;
+        }
+
+        /* -- links -- */
+        .link-row {
+            margin: 8px 0;
+        }
+
+        .link-row a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .link-row a:hover { text-decoration: underline; }
+
+        .link-caption {
+            font-size: 0.74rem;
+            color: #666;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
+
+    <div class="container">
+
+        <!-- gif -->
+        <div class="portrait">
+            <img src="../assets/me.gif" alt="simar">
+        </div>
+
+        <!-- bio + links -->
+        <div class="content">
+
+            <h2>about</h2>
+            <p>your bio goes here.</p>
+
+            <h2>elsewhere</h2>
+
+            <div class="link-row">
+                <a href="#">portfolio — design & visual work</a>
+                <div class="link-caption">add a line about what this portfolio contains</div>
+            </div>
+
+            <div class="link-row">
+                <a href="#">portfolio — code & technical projects</a>
+                <div class="link-caption">add a line about what this portfolio contains</div>
+            </div>
+
+            <div class="link-row">
+                <a href="#">soundcloud</a>
+            </div>
+
+            <div class="link-row">
+                <a href="#">youtube</a>
+            </div>
+
+            <div class="link-row">
+                <a href="#">instagram</a>
+            </div>
+
+            <div class="link-row">
+                <a href="#">goodreads</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

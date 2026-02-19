@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Example Album - seafoam palace</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        header { text-align: center; padding: 20px; }
+        nav { text-align: center; padding: 10px; }
+        nav a { margin: 0 15px; text-decoration: none; color: blue; }
+
+        .content {
+            max-width: 680px;
+            margin: 40px auto;
+        }
+
+        /* -- back link -- */
+        .back {
+            font-size: 0.8rem;
+            color: blue;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 28px;
+        }
+
+        .back:hover { text-decoration: underline; }
+
+        /* -- entry header -- */
+        .entry-title {
+            font-size: 0.95rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin: 0 0 4px;
+        }
+
+        .entry-meta {
+            font-size: 0.75rem;
+            color: #999;
+            margin: 0 0 36px;
+        }
+
+        /* -- text -- */
+        .entry-text {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        /* -- images -- */
+        .entry-image {
+            margin-bottom: 32px;
+        }
+
+        .entry-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .image-caption {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* placeholder styling */
+        .placeholder-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
+
+    <div class="content">
+
+        <a href="/pages/curios.html" class="back">← curios</a>
+
+        <h2 class="entry-title">example album</h2>
+        <p class="entry-meta">feb 2026 · this is a sample post</p>
+
+        <div class="entry-text">
+            <p>This is what a curios post looks like. You can mix text and images however you want. Add captions, skip captions, use just text, use just images — it's completely flexible.</p>
+        </div>
+
+        <div class="entry-image">
+            <div class="placeholder-img">[your image here]</div>
+            <div class="image-caption">this is an optional caption</div>
+        </div>
+
+        <div class="entry-text">
+            <p>You can add more text between images.</p>
+        </div>
+
+        <div class="entry-image">
+            <div class="placeholder-img">[another image]</div>
+        </div>
+
+        <div class="entry-image">
+            <div class="placeholder-img">[one more]</div>
+            <div class="image-caption">captions are optional — delete the div if you don't need one</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

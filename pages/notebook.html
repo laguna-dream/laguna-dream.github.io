@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>notebook - seafoam palace</title>
 
     <style>
@@ -9,12 +10,11 @@
             margin: 0;
             padding: 20px;
             font-family: 'Times New Roman', Times, serif;
-            font-size: 20px;
         }
 
         header {
             text-align: center;
-            padding: 10px;
+            padding: 20px;
         }
 
         nav {
@@ -29,40 +29,51 @@
         }
 
         .content {
-            max-width: 1000px;
+            max-width: 600px;
             margin: 40px auto;
-            text-align: left;
+        }
+
+        .content h2 {
+            font-size: 0.95rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
         }
 
         .notebook-entry {
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
+            margin: 0 0 40px;
         }
 
         .entry-meta {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
+            font-size: 0.75rem;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .notebook-entry p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 0 0 12px;
+        }
+
+        .notebook-entry li {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        iframe {
+            max-width: 100%;
+            margin: 10px 0;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>seafoam palace</h1>
-    </header>
-
-    <nav>
-        <a href="/index.html">home</a>
-        <a href="/pages/writing.html">writing</a>
-        <a href="/pages/notebook.html">notebook</a>
-        <a href="/pages/curios.html">curios</a>
-    </nav>
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
 
     <div class="content">
-        <h2 style="padding:20px">notebook</h2>
-
+        <h2>notebook</h2>
 
         <div class="notebook-entry">
             <div class="entry-meta">
@@ -136,8 +147,6 @@
             </p>
             </p>
             </p>
-
-
         </div>
 
         <div class="notebook-entry">
@@ -164,7 +173,6 @@
                 for off the fly thoughts
             </p>
         </div>
-    </div>
     </div>
 </body>
 

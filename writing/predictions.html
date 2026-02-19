@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>ocean</title>
+    <meta charset="UTF-8">    <title>ocean</title>
     <style>
         body {
             margin: 0;
@@ -58,14 +58,8 @@
 </head>
 
 <body>
-    <header>
-    </header>
-    <nav>
-        <a href="/index.html">home</a>
-        <a href="/pages/writing.html">writing</a>
-        <a href="/pages/notebook.html">notebook</a>
-        <a href="/pages/curios.html">curios</a>
-    </nav>
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
     <br>
     <div class="gif-space">
         <img src="/assets/stars.gif" alt="help">
@@ -136,7 +130,7 @@
             <br>
             find my way to the ocean
             <br>
-            <img src="shell.png" alt="Clickable image to play sound" id="playImage">
+            <img src="/assets/shell.png" alt="Clickable image to play sound" id="playImage">
             <audio id="audioPlayer">
                 <source src="lullaby.mp3" type="audio/mpeg">
             </audio>

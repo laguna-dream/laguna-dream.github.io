@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>garden - seafoam palace</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: blue;
+        }
+
+        .content {
+            max-width: 560px;
+            margin: 40px auto;
+        }
+
+        .content h2 {
+            font-size: 1rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* -- tag filter buttons -- */
+        .filters {
+            margin-bottom: 20px;
+            font-size: 0.75rem;
+        }
+
+        .filters button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.75rem;
+            color: #999;
+            cursor: pointer;
+            padding: 1px 5px 1px 0;
+        }
+
+        .filters button:hover { color: blue; }
+        .filters button.active { color: blue; text-decoration: underline; }
+
+        .link-item {
+            margin: 14px 0;
+        }
+
+        .link-item a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .link-item a:hover { text-decoration: underline; }
+
+        .caption {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
+
+    <div class="content">
+        <h2>garden</h2>
+
+        <div class="filters">
+            <button class="active" onclick="filterGarden('all', this)">all</button>
+            <button onclick="filterGarden('music', this)">music</button>
+            <button onclick="filterGarden('blog', this)">blog</button>
+            <button onclick="filterGarden('tv', this)">tv</button>
+        </div>
+
+        <div class="link-item" data-tags="music">
+            <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s" target="_blank" rel="noopener noreferrer">music: les rallizes denudes 1970</a>
+            <div class="caption">tender afternoon noise</div>
+        </div>
+
+        <div class="link-item" data-tags="music">
+            <a href="https://www.youtube.com/watch?v=fSRTHbtlLFc" target="_blank" rel="noopener noreferrer">music: the rest is noise</a>
+            <div class="caption">i like the bit at 2:04. the rest is noise.</div>
+        </div>
+
+        <div class="link-item" data-tags="music">
+            <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s" target="_blank" rel="noopener noreferrer">music: Lindsheaven Virtual Plaza — Rainforest Hill</a>
+            <div class="caption">good music to shut yourself in a room to. wet, metallic, tropical.</div>
+        </div>
+
+        <div class="link-item" data-tags="blog">
+            <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html" target="_blank" rel="noopener noreferrer">blog: savandurga - overnight stay one</a>
+            <div class="caption">endearing. i would like to collect more travel blogs/posts like this to build an archive, travel map/guide maybe.</div>
+        </div>
+
+        <div class="link-item" data-tags="tv">
+            <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU" target="_blank" rel="noopener noreferrer">tv: anthony bourdain: parts unknown | miami</a>
+            <div class="caption">i enjoyed this episode.</div>
+        </div>
+
+        <div class="link-item" data-tags="tv">
+            <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv: freaks and geeks episode 1</a>
+            <div class="caption">rewatched recently. timeless, funny.
+                on becoming, figuring. poking at social order and constructs.
+                discovering its malleability. the breaking of illusions.</div>
+        </div>
+
+    </div>
+
+    <script>
+        function filterGarden(tag, btn) {
+            document.querySelectorAll('.link-item').forEach(el => {
+                const tags = el.dataset.tags ? el.dataset.tags.split(' ') : [];
+                el.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+            });
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>

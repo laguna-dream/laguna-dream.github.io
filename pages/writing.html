@@ -32,42 +32,101 @@
             margin: 40px auto;
         }
 
-        .article-link {
-            display: block;
-            padding: 15px;
-            margin: 10px 0;
-            color: blue;
-            text-decoration: none;
-            border: 0px solid #ddd;
+        /* -- tag filter buttons -- */
+        .filters {
+            margin-bottom: 20px;
+            font-size: 0.78rem;
         }
 
-        .article-link:hover {
-            background-color: #f0f0f0;
+        .filters button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.78rem;
+            color: #999;
+            cursor: pointer;
+            padding: 2px 6px;
+            margin-right: 4px;
+        }
+
+        .filters button:hover { color: blue; }
+
+        .filters button.active {
+            color: blue;
+            text-decoration: underline;
+        }
+
+        /* -- entries -- */
+        .entry {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .entry a {
+            color: blue;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .entry a:hover { text-decoration: underline; }
+
+        .tag-label {
+            font-size: 0.65rem;
+            color: #999;
+            margin-left: 12px;
+            white-space: nowrap;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>seafoam palace</h1>
-    </header>
-
-    <nav>
-        <a href="/index.html">home</a>
-        <a href="/pages/writing.html">writing</a>
-        <a href="/pages/notebook.html">notebook</a>
-        <a href="/pages/curios.html">curios</a>
-    </nav>
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
 
     <div class="content">
         <h2>writing</h2>
-        <a href="/writing/musicmaking.html" class="article-link">Music Making</a>
-        <a href="/writing/new.html" class="article-link">oh of course i know how to write</a>
-        <a href="/writing/meaningoflife.html" class="article-link">meaning of life</a>
-        <a href="/writing/predictions.html" class="article-link">predictions for 2026</a>
+
+        <div class="filters">
+            <button class="active" onclick="filter('all', this)">all</button>
+            <button onclick="filter('music', this)">music</button>
+            <button onclick="filter('personal', this)">personal</button>
+        </div>
+
+        <div class="entry" data-tags="music">
+            <a href="/writing/musicmaking.html">Music Making</a>
+            <span class="tag-label">music</span>
+        </div>
+
+        <div class="entry" data-tags="personal">
+            <a href="/writing/new.html">oh of course i know how to write</a>
+            <span class="tag-label">personal</span>
+        </div>
+
+        <div class="entry" data-tags="personal">
+            <a href="/writing/meaningoflife.html">meaning of life</a>
+            <span class="tag-label">personal</span>
+        </div>
+
+        <div class="entry" data-tags="personal">
+            <a href="/writing/predictions.html">predictions for 2026</a>
+            <span class="tag-label">personal</span>
+        </div>
 
     </div>
 
+    <script>
+        function filter(tag, btn) {
+            document.querySelectorAll('.entry').forEach(el => {
+                const tags = el.dataset.tags.split(' ');
+                el.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+            });
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
 </body>
 
 </html>

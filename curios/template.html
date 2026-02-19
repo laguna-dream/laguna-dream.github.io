@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>entry title - seafoam palace</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        header { text-align: center; padding: 20px; }
+        nav { text-align: center; padding: 10px; }
+        nav a { margin: 0 15px; text-decoration: none; color: blue; }
+
+        .content {
+            max-width: 680px;
+            margin: 40px auto;
+        }
+
+        /* -- back link -- */
+        .back {
+            font-size: 0.8rem;
+            color: blue;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 28px;
+        }
+
+        .back:hover { text-decoration: underline; }
+
+        /* -- entry header -- */
+        .entry-title {
+            font-size: 0.95rem;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin: 0 0 4px;
+        }
+
+        .entry-meta {
+            font-size: 0.75rem;
+            color: #999;
+            margin: 0 0 36px;
+        }
+
+        /* -- text -- */
+        .entry-text {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        /* -- images -- */
+        .entry-image {
+            margin-bottom: 32px;
+        }
+
+        .entry-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .image-caption {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 6px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
+
+    <div class="content">
+
+        <a href="/pages/curios.html" class="back">← curios</a>
+
+        <h2 class="entry-title">entry title</h2>
+        <p class="entry-meta">month year · location or context</p>
+
+        <!--
+            This template is flexible. Mix and match the blocks below.
+            Delete what you don't need.
+        -->
+
+        <!-- TEXT block: use for any written content -->
+        <div class="entry-text">
+            <p>text goes here.</p>
+        </div>
+
+        <!-- IMAGE block: duplicate for multiple images. Remove caption div if not needed. -->
+        <div class="entry-image">
+            <img src="/assets/curios/album-name/01.jpg" alt="description">
+            <div class="image-caption">caption goes here (delete this div if no caption)</div>
+        </div>
+
+        <div class="entry-image">
+            <img src="/assets/curios/album-name/02.jpg" alt="description">
+        </div>
+
+    </div>
+
+</body>
+
+</html>
