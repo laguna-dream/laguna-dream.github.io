@@ -1,17 +1,10 @@
 (function () {
-    // inject shared header/nav styles
-    const style = document.createElement('style');
-    style.textContent = [
-        'header { text-align: center; padding: 20px; }',
-        'nav { text-align: center; padding: 10px; }',
-        'nav a { margin: 0 15px; text-decoration: none; color: blue; }'
-    ].join('\n');
-    document.head.appendChild(style);
-
     // inject shared header + nav HTML
     const el = document.getElementById('site-nav');
     if (!el) return;
+
     el.outerHTML = `
+    <button class="dark-mode-toggle" id="dark-mode-toggle">☾</button>
     <header>
         <h1>seafoam palace</h1>
     </header>
@@ -23,4 +16,40 @@
         <a href="/pages/garden.html">garden</a>
         <a href="/pages/about.html">about</a>
     </nav>`;
+
+    // mark active nav link
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('nav a').forEach(link => {
+        const linkPath = new URL(link.href).pathname;
+        if (currentPath === linkPath ||
+            (currentPath === '/' && linkPath === '/index.html') ||
+            (currentPath.includes('/curios/') && linkPath === '/pages/curios.html') ||
+            (currentPath.includes('/writing/') && linkPath === '/pages/writing.html')) {
+            link.classList.add('active');
+        }
+    });
+
+    // dark mode toggle
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        toggleBtn.textContent = '☀';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const darkModeEnabled = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', darkModeEnabled);
+        toggleBtn.textContent = darkModeEnabled ? '☀' : '☾';
+    });
+
+    // inject footer with RSS link
+    const footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    footer.innerHTML = `
+        <a href="/rss.xml" target="_blank" rel="noopener noreferrer">rss feed</a>
+    `;
+    document.body.appendChild(footer);
 })();

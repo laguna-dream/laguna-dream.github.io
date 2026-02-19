@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/shared.css">
+    <link rel="alternate" type="application/rss+xml" title="seafoam palace RSS" href="/rss.xml">
     <title>seafoam palace</title>
 
     <style>
@@ -200,6 +202,32 @@
             margin-left: 10px;
             white-space: nowrap;
         }
+
+        /* -- mobile responsive -- */
+        @media (max-width: 768px) {
+            .castle-stack {
+                width: 240px;
+                height: 165px;
+                transform: scale(0.75);
+                transform-origin: top center;
+            }
+
+            .page-content {
+                max-width: 100%;
+            }
+
+            .intro {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .castle-stack {
+                width: 200px;
+                height: 140px;
+                transform: scale(0.625);
+            }
+        }
     </style>
 </head>
 
@@ -301,9 +329,12 @@
             const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
             const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
 
+            // different movement amounts for each castle (more varied/random)
+            const moveAmounts = [3, 18, 12, 22, 15, 25, 20];
+
             castles.forEach((castle, i) => {
                 const base = basePositions[i];
-                const moveAmount = i === 0 ? 2 : 8 + (i * 2); // scenery moves less
+                const moveAmount = moveAmounts[i];
                 const newX = base.x + (x * moveAmount);
                 const newY = base.y + (y * moveAmount);
                 castle.style.transform = `translate(${newX}px, ${newY}px)`;

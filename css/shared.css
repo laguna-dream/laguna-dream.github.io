@@ -1,0 +1,258 @@
+/* ===== SEAFOAM PALACE SHARED STYLES ===== */
+
+/* -- base -- */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* dark mode */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-mode a {
+    color: #6b9bd1;
+}
+
+body.dark-mode .post-box,
+body.dark-mode .section.todo {
+    background: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .caption,
+body.dark-mode .link-caption,
+body.dark-mode .image-caption,
+body.dark-mode .post-preview {
+    color: #999;
+}
+
+body.dark-mode button {
+    color: #999;
+}
+
+body.dark-mode button:hover,
+body.dark-mode button.active {
+    color: #6b9bd1;
+}
+
+body.dark-mode .entry-meta,
+body.dark-mode .tag-label,
+body.dark-mode .post-count,
+body.dark-mode .portrait-caption {
+    color: #888;
+}
+
+body.dark-mode .entry {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .post-thumbnail-placeholder,
+body.dark-mode .placeholder-img {
+    background: #2a2a2a;
+    color: #666;
+}
+
+body.dark-mode iframe {
+    border: 1px solid #444;
+}
+
+/* -- header & nav -- */
+header {
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    text-align: center;
+    padding: 10px;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: blue;
+}
+
+nav a.active {
+    text-decoration: underline;
+}
+
+body.dark-mode nav a {
+    color: #6b9bd1;
+}
+
+/* -- dark mode toggle -- */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.dark-mode-toggle:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+body.dark-mode .dark-mode-toggle {
+    border-color: #555;
+    color: #999;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background: #333;
+    color: #ddd;
+}
+
+/* -- common filter buttons -- */
+.filters {
+    margin-bottom: 20px;
+    font-size: 0.75rem;
+}
+
+.filters button {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: #999;
+    cursor: pointer;
+    padding: 1px 5px 1px 0;
+}
+
+.filters button:hover {
+    color: blue;
+}
+
+.filters button.active {
+    color: blue;
+    text-decoration: underline;
+}
+
+/* -- common link/caption patterns -- */
+.link-item a,
+.entry a {
+    color: blue;
+    text-decoration: none;
+}
+
+.link-item a:hover,
+.entry a:hover {
+    text-decoration: underline;
+}
+
+.caption,
+.link-caption {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* -- mobile responsive -- */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    nav a {
+        margin: 0 8px;
+        font-size: 0.9rem;
+    }
+
+    .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
+        font-size: 0.7rem;
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav a {
+        display: inline-block;
+        margin: 5px 8px;
+    }
+}
+
+/* -- footer -- */
+.site-footer {
+    text-align: center;
+    margin: 60px auto 20px;
+    padding: 20px 0;
+    font-size: 0.7rem;
+}
+
+.site-footer a {
+    color: #999;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+body.dark-mode .site-footer a {
+    color: #666;
+}
+
+body.dark-mode .site-footer a:hover {
+    color: #6b9bd1;
+}
+
+/* -- print styles -- */
+@media print {
+    /* hide interactive elements */
+    nav,
+    .dark-mode-toggle,
+    .site-footer,
+    .filters,
+    button {
+        display: none !important;
+    }
+
+    /* reset colors for print */
+    body {
+        background: white !important;
+        color: black !important;
+        padding: 0;
+    }
+
+    body.dark-mode {
+        background: white !important;
+        color: black !important;
+    }
+
+    a {
+        color: black !important;
+        text-decoration: underline;
+    }
+
+    /* better page breaks */
+    .notebook-entry,
+    .entry,
+    .link-item {
+        page-break-inside: avoid;
+    }
+
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+
+    /* hide images in curios placeholder */
+    .placeholder-img {
+        display: none;
+    }
+}

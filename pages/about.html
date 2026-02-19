@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/shared.css">
+    <link rel="alternate" type="application/rss+xml" title="seafoam palace RSS" href="/rss.xml">
     <title>about - seafoam palace</title>
 
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Times New Roman', Times, serif;
         }
 
         header {
@@ -47,6 +48,14 @@
         .portrait img {
             width: 360px;
             display: block;
+        }
+
+        .portrait-caption {
+            font-size: 0.72rem;
+            color: #999;
+            font-style: italic;
+            margin-top: 6px;
+            text-align: center;
         }
 
         /* -- right column -- */
@@ -87,6 +96,29 @@
             color: #666;
             margin-top: 2px;
         }
+
+        /* -- mobile responsive -- */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 30px;
+                max-width: 100%;
+            }
+
+            .portrait {
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
+            .portrait img {
+                width: 100%;
+            }
+
+            .content {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -99,7 +131,8 @@
 
         <!-- gif -->
         <div class="portrait">
-            <img src="../assets/me.gif" alt="simar">
+            <img src="/assets/me.gif" alt="simar">
+            <div class="portrait-caption">self portrait</div>
         </div>
 
         <!-- bio + links -->
