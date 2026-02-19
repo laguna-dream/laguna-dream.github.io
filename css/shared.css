@@ -191,18 +191,23 @@ body.dark-mode .dark-mode-toggle:hover {
     text-align: center;
     margin: 80px auto 0;
     padding: 30px 0 24px;
-    font-size: 0.75rem;
     border-top: 1px solid #e0e0e0;
 }
 
 .site-footer a {
-    color: #666;
+    color: #999;
     text-decoration: none;
+    display: inline-block;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
 }
 
 .site-footer a:hover {
-    color: blue;
-    text-decoration: underline;
+    opacity: 1;
+}
+
+.site-footer svg {
+    display: block;
 }
 
 body.dark-mode .site-footer {
@@ -211,10 +216,6 @@ body.dark-mode .site-footer {
 
 body.dark-mode .site-footer a {
     color: #888;
-}
-
-body.dark-mode .site-footer a:hover {
-    color: #6b9bd1;
 }
 
 /* -- print styles -- */
