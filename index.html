@@ -61,26 +61,78 @@
         }
 
         /* castle1 = scenery, natural aspect ratio — only width set */
-        .castle-stack img:nth-child(1) { width: 320px; height: auto; transform: translate(0px, 0px); }
+        .castle-stack img:nth-child(1) {
+            width: 320px;
+            height: auto;
+            transform: translate(0px, 0px);
+        }
 
         /* the three smaller castles — tweak sizes here */
-        .castle-stack img:nth-child(2) { width: 112px; height: 112px; transform: translate(-80px,  58px); }
-        .castle-stack img:nth-child(3) { width:  94px; height:  94px; transform: translate(322px,  30px); }
-        .castle-stack img:nth-child(4) { width:  72px; height:  72px; transform: translate( 22px,  50px); }
+        .castle-stack img:nth-child(2) {
+            width: 112px;
+            height: 112px;
+            transform: translate(-80px, 58px);
+        }
+
+        .castle-stack img:nth-child(3) {
+            width: 94px;
+            height: 94px;
+            transform: translate(322px, 30px);
+        }
+
+        .castle-stack img:nth-child(4) {
+            width: 72px;
+            height: 72px;
+            transform: translate(22px, 50px);
+        }
 
         /* castle3 copies in the whitespace left and right of castle1 */
-        .castle-stack img:nth-child(5) { width:  80px; height:  80px; transform: translate(-224px,  44px); }
-        .castle-stack img:nth-child(6) { width:  76px; height:  76px; transform: translate(-176px, 136px); }
-        .castle-stack img:nth-child(7) { width:  84px; height:  84px; transform: translate( 408px,  64px); }
+        .castle-stack img:nth-child(5) {
+            width: 80px;
+            height: 80px;
+            transform: translate(-224px, 44px);
+        }
+
+        .castle-stack img:nth-child(6) {
+            width: 76px;
+            height: 76px;
+            transform: translate(-176px, 136px);
+        }
+
+        .castle-stack img:nth-child(7) {
+            width: 84px;
+            height: 84px;
+            transform: translate(408px, 64px);
+        }
 
         /* hover: nudge each castle randomly */
-        .castle-stack:hover img:nth-child(1) { transform: translate(2px, -1px); }
-        .castle-stack:hover img:nth-child(2) { transform: translate(-87px,  67px); }
-        .castle-stack:hover img:nth-child(3) { transform: translate(329px,  21px); }
-        .castle-stack:hover img:nth-child(4) { transform: translate( 14px,  41px); }
-        .castle-stack:hover img:nth-child(5) { transform: translate(-233px,  48px); }
-        .castle-stack:hover img:nth-child(6) { transform: translate(-168px, 145px); }
-        .castle-stack:hover img:nth-child(7) { transform: translate( 417px,  55px); }
+        .castle-stack:hover img:nth-child(1) {
+            transform: translate(2px, -1px);
+        }
+
+        .castle-stack:hover img:nth-child(2) {
+            transform: translate(-87px, 67px);
+        }
+
+        .castle-stack:hover img:nth-child(3) {
+            transform: translate(329px, 21px);
+        }
+
+        .castle-stack:hover img:nth-child(4) {
+            transform: translate(14px, 41px);
+        }
+
+        .castle-stack:hover img:nth-child(5) {
+            transform: translate(-233px, 48px);
+        }
+
+        .castle-stack:hover img:nth-child(6) {
+            transform: translate(-168px, 145px);
+        }
+
+        .castle-stack:hover img:nth-child(7) {
+            transform: translate(417px, 55px);
+        }
 
         /* -- links -- */
         .links-section {
@@ -102,7 +154,9 @@
             font-size: 0.92rem;
         }
 
-        .link-item a:hover { text-decoration: underline; }
+        .link-item a:hover {
+            text-decoration: underline;
+        }
 
         .caption {
             font-size: 0.8rem;
@@ -128,7 +182,9 @@
             margin: 4px 0;
         }
 
-        .section a:hover { text-decoration: underline; }
+        .section a:hover {
+            text-decoration: underline;
+        }
 
         .section small {
             font-size: 0.88rem;
@@ -159,7 +215,9 @@
             text-decoration: none;
         }
 
-        .credits a:hover { text-decoration: underline; }
+        .credits a:hover {
+            text-decoration: underline;
+        }
 
         /* -- writing tags -- */
         .filters {
@@ -177,8 +235,14 @@
             padding: 1px 5px 1px 0;
         }
 
-        .filters button:hover { color: blue; }
-        .filters button.active { color: blue; text-decoration: underline; }
+        .filters button:hover {
+            color: blue;
+        }
+
+        .filters button.active {
+            color: blue;
+            text-decoration: underline;
+        }
 
         .entry {
             display: flex;
@@ -193,7 +257,9 @@
             font-size: 0.92rem;
         }
 
-        .entry a:hover { text-decoration: underline; }
+        .entry a:hover {
+            text-decoration: underline;
+        }
 
         .tag-label {
             font-size: 0.65rem;
@@ -237,7 +303,7 @@
 
     <div class="castle-stack">
         <img src="assets/castle1.png" alt="castle scenery">
-        <img src="assets/castle.png"  alt="castle">
+        <img src="assets/castle.png" alt="castle">
         <img src="assets/castle2.png" alt="castle">
         <img src="assets/castle3.png" alt="castle">
         <img src="assets/castle3.png" alt="castle">
@@ -245,44 +311,54 @@
         <img src="assets/castle3.png" alt="castle">
     </div>
 
-    <p class="intro">hi, i'm simar. this website is under construction. here are a few things you can take a look at.</p>
+    <p class="intro">hi, i'm simar. this website is under construction. here are a few things you can take a look at.
+    </p>
 
     <div class="page-content">
 
         <div class="links-section">
-            <b>bookshelf</b> <a href="/pages/garden.html" style="font-size:0.7rem; color:blue; text-decoration:none; margin-left:6px;">→ garden</a>
-            <p style="font-size:0.72rem; color:#999; margin:4px 0 12px;">stuff i'm recently consuming, updated regularly</p>
+            <b>bookshelf</b> <a href="/pages/garden.html"
+                style="font-size:0.7rem; color:blue; text-decoration:none; margin-left:6px;">→ garden</a>
+            <p style="font-size:0.72rem; color:#999; margin:4px 0 12px;">interesting things i come across, updated
+                regularly</p>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s" target="_blank" rel="noopener noreferrer">music: les rallizes denudes 1970</a>
+                <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s" target="_blank"
+                    rel="noopener noreferrer">music: les rallizes denudes 1970</a>
                 <div class="caption">tender afternoon noise</div>
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=fSRTHbtlLFc" target="_blank" rel="noopener noreferrer">music: the rest is noise</a>
+                <a href="https://www.youtube.com/watch?v=fSRTHbtlLFc" target="_blank" rel="noopener noreferrer">music:
+                    the rest is noise</a>
                 <div class="caption">i like the bit at 2:04. the rest is noise.</div>
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s" target="_blank" rel="noopener noreferrer">music: Lindsheaven Virtual Plaza — Rainforest Hill</a>
+                <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s" target="_blank"
+                    rel="noopener noreferrer">music: Lindsheaven Virtual Plaza — Rainforest Hill</a>
                 <div class="caption">good music to shut yourself in a room to. wet, metallic, tropical.</div>
             </div>
 
             <div class="link-item">
-                <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html" target="_blank" rel="noopener noreferrer">blog: savandurga - overnight stay one</a>
-                <div class="caption">endearing. i would like to collect more travel blogs/posts like this to build an archive, travel map/guide maybe.</div>
+                <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html"
+                    target="_blank" rel="noopener noreferrer">blog: savandurga - overnight stay one</a>
+                <div class="caption">endearing. i would like to collect older travel blogs like this to build an
+                    archive, or a travel guide of sorts.</div>
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU" target="_blank" rel="noopener noreferrer">tv: anthony bourdain: parts unknown | miami</a>
+                <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU" target="_blank" rel="noopener noreferrer">tv:
+                    anthony bourdain: parts unknown | miami</a>
                 <div class="caption">i enjoyed this episode.</div>
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv: freaks and geeks episode 1</a>
+                <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv:
+                    freaks and geeks episode 1</a>
                 <div class="caption">rewatched recently. timeless, funny.
                     on becoming, figuring. poking at social order and constructs.
-                    discovering its malleability. the breaking of illusions.</div>
+                    discovering their malleability. the breaking of illusions.</div>
             </div>
         </div>
 
@@ -293,19 +369,21 @@
         </div>
 
         <div class="section todo">
-            <b>in the works</b>
+            <b> legend / in the works </b>
             <small>
-                𓇙 curios: build a shelf to put interesting things i find on my current travels.<br>
+                𓇙 curios: building a shelf to put interesting things i find on my current travels.<br>
                 𓇙 garden: influences, archives, formative stuff<br>
                 𓇙 notebook: for quick thoughts<br>
-                𓇙 writing: longer thoughts<br>
-                𓇙 figure out rss
+                𓇙 writing: for longer pieces<br>
+                𓇙 would like to build a noticeboard for the home page - updates on where i am, what i'm upto. also
+                website updates. <br>
             </small>
         </div>
 
     </div>
 
-    <p class="credits">ascii art credits: Fairy Queen by H P Barmario (Morfina) · Castle on Rock by Volker Hellmich · Northern Lights by D Rice</p>
+    <p class="credits">ascii art credits: Fairy Queen by H P Barmario (Morfina) · Castle on Rock by Volker Hellmich ·
+        Northern Lights by D Rice</p>
 
     <script>
         // continuous castle hover effect

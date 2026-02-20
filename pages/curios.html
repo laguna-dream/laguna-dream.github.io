@@ -42,8 +42,14 @@
             padding: 1px 5px 1px 0;
         }
 
-        .filters button:hover { color: blue; }
-        .filters button.active { color: blue; text-decoration: underline; }
+        .filters button:hover {
+            color: blue;
+        }
+
+        .filters button.active {
+            color: blue;
+            text-decoration: underline;
+        }
 
         /* -- catalog grid -- */
         .posts-grid {
@@ -59,7 +65,9 @@
             cursor: pointer;
         }
 
-        .post-box:hover { background: #f0f0ee; }
+        .post-box:hover {
+            background: #f0f0ee;
+        }
 
         .post-box a {
             text-decoration: none;
@@ -133,20 +141,21 @@
 
             <!-- duplicate this block for each entry. data-tags can be: photos found text -->
             <div class="post-box" data-tags="photos">
-                <a href="/curios/example.html">
-                    <div class="post-thumbnail-placeholder"></div>
+                <a href="/curios/post1.html">
+                    <img src="/assets/curios/post1/1.png" class="post-thumbnail" alt="title">
                     <!-- swap above for: <img src="/assets/curios/example/cover.jpg" class="post-thumbnail" alt="title"> -->
-                    <span class="post-title">example album</span>
-                    <p class="post-preview">this is what a curios post looks like</p>
-                    <div class="post-count">3 images · feb 2026</div>
-                    <div class="tag-label">photos</div>
+                    <span class="post-title">
+                        Linda Linda (カヴァー)</span>
+                    <p class="post-preview">a youtube cover of a japanese song</p>
+                    <div class="post-count"> feb 2026</div>
+                    <div class="tag-label">music</div>
                 </a>
             </div>
 
         </div>
     </div>
 
-    <!-- uncomment when you have tagged posts:
+
     <script>
         function filterCurios(tag, btn) {
             document.querySelectorAll('.post-box').forEach(el => {
@@ -157,7 +166,7 @@
             btn.classList.add('active');
         }
     </script>
-    -->
+
 
 </body>
 
