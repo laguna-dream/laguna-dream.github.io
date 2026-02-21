@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guitar Jam Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c18;
+    --card: #151528;
+    --card2: #1a1a32;
+    --border: #222244;
+    --text: #d0d0e8;
+    --dim: #7878a0;
+    --white: #f0f0ff;
+    --red: #f0564a;
+    --red-g: rgba(240,86,74,0.25);
+    --blue: #4a90f0;
+    --blue-g: rgba(74,144,240,0.18);
+    --green: #3cc77a;
+    --green-g: rgba(60,199,122,0.14);
+    --yellow: #eec040;
+    --yellow-g: rgba(238,192,64,0.12);
+    --purple: #a06af0;
+    --purple-g: rgba(160,106,240,0.14);
+    --orange: #f08a40;
+    --orange-g: rgba(240,138,64,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+  .container{max-width:760px;margin:0 auto;padding:24px 16px 80px;}
+
+  /* Header */
+  .hdr{text-align:center;padding:16px 0 24px;}
+  .hdr h1{font-size:1.7rem;color:var(--white);letter-spacing:-0.5px;}
+  .hdr p{color:var(--dim);font-size:0.88rem;margin-top:4px;}
+
+  /* Main nav */
+  .main-nav{display:flex;gap:4px;margin-bottom:28px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+  .main-nav button{flex-shrink:0;padding:9px 18px;border:1px solid var(--border);background:var(--card);color:var(--dim);border-radius:10px;font-family:inherit;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all .2s;}
+  .main-nav button.active{background:var(--red);border-color:var(--red);color:#fff;}
+  .main-nav button:hover:not(.active){background:var(--card2);color:var(--text);}
+
+  .section{display:none;animation:fadeIn .25s;}
+  .section.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  /* Cards */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;}
+  .card h2{font-size:1.12rem;color:var(--white);margin-bottom:10px;}
+  .card h3{font-size:0.95rem;color:var(--blue);margin-bottom:8px;}
+  .card p{color:var(--dim);font-size:0.87rem;margin-bottom:8px;}
+  .card p:last-child{margin-bottom:0;}
+
+  .hl{padding:12px 16px;border-radius:0 10px 10px 0;margin:12px 0;border-left:3px solid var(--blue);background:var(--blue-g);}
+  .hl.red{border-color:var(--red);background:var(--red-g);}
+  .hl.green{border-color:var(--green);background:var(--green-g);}
+  .hl.purple{border-color:var(--purple);background:var(--purple-g);}
+  .hl p{margin:0;color:var(--text);font-size:0.86rem;}
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* Toggle / pills */
+  .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;}
+  .pill{padding:6px 14px;border:1px solid var(--border);background:var(--bg);color:var(--dim);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .15s;}
+  .pill.active,.pill:hover{background:var(--red);border-color:var(--red);color:#fff;}
+  .pill.blue.active,.pill.blue:hover{background:var(--blue);border-color:var(--blue);}
+  .pill.green.active,.pill.green:hover{background:var(--green);border-color:var(--green);}
+
+  .toggle-row{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:3px;display:inline-flex;margin:8px 0;}
+  .toggle-btn{padding:6px 16px;border:none;border-radius:8px;font-family:inherit;font-size:0.82rem;font-weight:600;cursor:pointer;background:transparent;color:var(--dim);transition:all .15s;}
+  .toggle-btn.active{background:var(--red);color:#fff;}
+
+  /* Fretboard common */
+  .fb-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px -6px;padding:0 6px;}
+  .fb-inner{min-width:580px;position:relative;}
+  .fb-nums{display:flex;margin-left:28px;margin-bottom:2px;}
+  .fb-nums span{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#3a3a5a;}
+  .fb-row{display:flex;align-items:center;height:30px;}
+  .fb-lbl{width:26px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--dim);text-align:center;flex-shrink:0;}
+  .fb-cell{flex:1;height:100%;position:relative;display:flex;align-items:center;justify-content:center;border-right:1px solid #1a1a30;}
+  .fb-cell::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:#222240;}
+  .fb-row .fb-cell:first-child{border-left:3px solid #4a4a6a;}
+
+  .dot{width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff;position:relative;z-index:2;transition:transform .12s;}
+  .dot:hover{transform:scale(1.2);}
+  .dot.root{background:var(--red);box-shadow:0 0 8px rgba(240,86,74,0.4);}
+  .dot.b1{background:var(--blue);}
+  .dot.b2{background:var(--green);}
+  .dot.b3{background:var(--yellow);color:#1a1a2e;}
+  .dot.b4{background:var(--purple);}
+  .dot.b5{background:var(--orange);}
+  .dot.muted{opacity:0.13;}
+  .dot.scale{background:var(--blue);}
+
+  /* Chord grid */
+  .chord-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:7px;margin:12px 0;}
+  .chord-box{text-align:center;padding:12px 6px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border);transition:all .2s;}
+  .chord-box .deg{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--dim);margin-bottom:3px;}
+  .chord-box .cn{font-size:1.02rem;font-weight:700;color:var(--white);}
+  .chord-box .ct{font-size:0.68rem;color:var(--dim);margin-top:2px;}
+  .chord-box.maj{border-color:var(--blue);background:var(--blue-g);}
+  .chord-box.min{border-color:var(--green);background:var(--green-g);}
+  .chord-box.dim{border-color:var(--yellow);background:var(--yellow-g);}
+
+  /* Scale table */
+  .s-row{display:grid;grid-template-columns:36px 55px 1fr 72px;align-items:center;padding:9px 10px;border-radius:7px;font-size:0.85rem;gap:6px;}
+  .s-row:nth-child(odd){background:rgba(255,255,255,0.015);}
+  .s-row .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.95rem;}
+  .s-row .nn{font-weight:600;color:var(--white);}
+  .s-row .rl{color:var(--dim);}
+  .s-row .q{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:500;text-align:right;}
+  .q.maj{color:var(--blue);}
+  .q.min{color:var(--green);}
+  .q.dm{color:var(--yellow);}
+
+  /* Barre diagrams */
+  .barre-pair{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;}
+  .barre-card{flex:1;min-width:140px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+  .barre-card .bl{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .barre-card canvas{display:block;margin:0 auto;}
+  .barre-card .bi{font-size:0.72rem;color:var(--dim);margin-top:8px;line-height:1.5;}
+
+  /* Example box */
+  .ex{background:var(--purple-g);border:1px solid rgba(160,106,240,0.2);border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .ex .el{font-size:0.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;}
+  .ex p{color:var(--text);margin:0;font-size:0.86rem;}
+
+  /* Tab */
+  .tab{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.8;white-space:pre;overflow-x:auto;color:var(--text);margin:10px 0;}
+
+  /* Legend */
+  .legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
+  .leg-item{display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer;padding:3px 8px;border-radius:7px;border:1px solid transparent;transition:all .15s;color:var(--dim);}
+  .leg-item:hover,.leg-item.active{border-color:rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);}
+  .leg-dot{width:12px;height:12px;border-radius:50%;}
+
+  /* Finder result boxes */
+  .find-res{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
+  .find-box{flex:1;min-width:180px;border-radius:10px;padding:14px 16px;}
+  .find-box .fl{font-size:0.75rem;font-weight:700;margin-bottom:3px;}
+  .find-box .fv{font-size:1.05rem;color:var(--white);font-weight:700;}
+  .find-box .fd{font-size:0.78rem;color:var(--dim);margin-top:4px;}
+
+  /* Progression display */
+  .prog-row{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap;}
+  .prog-label{font-size:0.78rem;color:var(--dim);width:80px;flex-shrink:0;}
+  .prog-chords{font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--white);font-weight:600;}
+
+  /* Learning order */
+  .learn-step{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+  .learn-step:last-child{border-bottom:none;}
+  .learn-step .ls-text strong{color:var(--white);}
+  .learn-step .ls-text span{color:var(--dim);font-size:0.84rem;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hdr">
+  <h1>Guitar Jam Toolkit</h1>
+  <p>Everything in one place — scales, chords, keys, barre shapes</p>
+</div>
+
+<div class="main-nav" id="mainNav">
+  <button class="active" data-s="theory">Theory Basics</button>
+  <button data-s="numbers">Number System</button>
+  <button data-s="keys">Key Explorer</button>
+  <button data-s="pent">Pentatonic Scales</button>
+  <button data-s="barre">Barre Chords</button>
+  <button data-s="finder">Note Finder</button>
+</div>
+
+<!-- ═══════════════════ THEORY BASICS ═══════════════════ -->
+<div class="section active" id="sec-theory">
+  <div class="card">
+    <h2>What's a Key?</h2>
+    <p>A key is a family of 7 notes that sound good together. When someone says "we're in C," all the chords and melodies come from those 7 notes.</p>
+    <p>Every major key uses the same pattern of gaps between notes:</p>
+    <div class="hl">
+      <p><span class="mono" style="color:var(--white);font-size:0.92rem;">Whole · Whole · Half · Whole · Whole · Whole · Half</span></p>
+      <p style="margin-top:5px;font-size:0.8rem;">On guitar: Whole = 2 frets, Half = 1 fret</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2>What's a Scale?</h2>
+    <p>A scale is those 7 notes played one by one. The C major scale is the easiest — no sharps or flats:</p>
+    <div class="hl"><p><span class="mono" style="color:var(--white);font-size:1rem;">C · D · E · F · G · A · B</span></p></div>
+    <p>Every other key follows the same pattern from a different starting note. G major: <span class="mono">G A B C D E F#</span>.</p>
+  </div>
+  <div class="card">
+    <h2>What's Pentatonic?</h2>
+    <p>"Penta" = five. A pentatonic scale takes the 7-note scale and strips it to 5 notes by removing the two that can sound awkward. What's left are 5 notes that sound good over almost anything.</p>
+    <div class="hl green">
+      <p><strong style="color:var(--white);">Major pentatonic</strong> = the bright, happy 5 notes<br>
+      <strong style="color:var(--white);">Minor pentatonic</strong> = the bluesy, gritty 5 notes<br><br>
+      They use the <strong style="color:var(--white);">exact same shapes</strong> on guitar — you just start from a different fret depending on whether you want major or minor.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Why Do People Say Numbers?</h2>
+    <p>Because numbers work in every key. "Play the 1, 4, 5" means the same thing whether you're in G, E, or Bb. Each note in the scale gets a number. The first note = 1, second = 2, etc.</p>
+    <div class="ex">
+      <div class="el">Example</div>
+      <p>Someone says: <span class="mono" style="color:var(--white);">"1-4-5 in G"</span><br>
+      G scale = G A B C D E F# → 1=<strong style="color:var(--white)">G</strong>, 4=<strong style="color:var(--white)">C</strong>, 5=<strong style="color:var(--white)">D</strong><br>
+      Play: G → C → D</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NUMBER SYSTEM ═══════════════════ -->
+<div class="section" id="sec-numbers">
+  <div class="card">
+    <h2>The Number System</h2>
+    <p>Each note in a major key gets a number AND a chord quality. This pattern is always the same in every key:</p>
+    <div style="margin-top:12px;">
+      <div class="s-row" style="font-weight:700;color:var(--dim);font-size:0.7rem;text-transform:uppercase;letter-spacing:.5px;"><span>#</span><span>Chord</span><span>Role</span><span style="text-align:right">Type</span></div>
+      <div class="s-row"><span class="n" style="color:var(--red)">1</span><span class="nn">I</span><span class="rl">Home base</span><span class="q maj">Major</span></div>
+      <div class="s-row"><span class="n" style="color:var(--green)">2</span><span class="nn">ii</span><span class="rl">Tension builder</span><span class="q min">minor</span></div>
+      <div class="s-row"><span class="n" style="color:var(--green)">3</span><span class="nn">iii</span><span class="rl">Emotional color</span><span class="q min">minor</span></div>
+      <div class="s-row"><span class="n" style="color:var(--blue)">4</span><span class="nn">IV</span><span class="rl">The "lift"</span><span class="q maj">Major</span></div>
+      <div class="s-row"><span class="n" style="color:var(--blue)">5</span><span class="nn">V</span><span class="rl">Tension → wants to resolve to 1</span><span class="q maj">Major</span></div>
+      <div class="s-row"><span class="n" style="color:var(--green)">6</span><span class="nn">vi</span><span class="rl">The "sad" sound (relative minor)</span><span class="q min">minor</span></div>
+      <div class="s-row"><span class="n" style="color:var(--yellow)">7</span><span class="nn">vii°</span><span class="rl">Rare — tense & unstable</span><span class="q dm">dim</span></div>
+    </div>
+    <div class="hl red" style="margin-top:14px;">
+      <p><strong style="color:var(--white)">Memorize this:</strong> <span class="mono" style="color:var(--white);">Maj · min · min · Maj · Maj · min · dim</span><br>Same in every key, always.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Common Progressions</h2>
+    <div class="ex"><div class="el">1 – 4 – 5 &nbsp;(Blues / Rock)</div><p>Three major chords. The backbone of blues, rock, country.</p></div>
+    <div class="ex"><div class="el">1 – 5 – 6 – 4 &nbsp;(Pop)</div><p>The "four-chord song." Thousands of hits use this.</p></div>
+    <div class="ex"><div class="el">1 – 6 – 4 – 5 &nbsp;(50s / Doo-wop)</div><p>Classic feel-good progression.</p></div>
+    <div class="ex"><div class="el">2 – 5 – 1 &nbsp;(Jazz)</div><p>The ii-V-I. Most important jazz progression.</p></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ KEY EXPLORER ═══════════════════ -->
+<div class="section" id="sec-keys">
+  <div class="card">
+    <h2>Major vs Minor Chords — What's the Difference?</h2>
+    <p>You already know major and minor chords — you just might not know you know them.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;">
+      <div style="flex:1;min-width:160px;background:var(--blue-g);border:1px solid rgba(74,144,240,0.25);border-radius:10px;padding:14px;">
+        <p style="color:var(--blue);font-weight:700;font-size:0.85rem;margin-bottom:4px;">MAJOR = happy / bright</p>
+        <p style="margin:0;font-size:0.84rem;">G, C, D, E, A — these open chords you know are all major. They sound resolved and upbeat.</p>
+      </div>
+      <div style="flex:1;min-width:160px;background:var(--green-g);border:1px solid rgba(60,199,122,0.25);border-radius:10px;padding:14px;">
+        <p style="color:var(--green);font-weight:700;font-size:0.85rem;margin-bottom:4px;">MINOR = sad / moody</p>
+        <p style="margin:0;font-size:0.84rem;">Am, Em, Dm — you know these too. They sound darker and more emotional.</p>
+      </div>
+    </div>
+    <p>The only physical difference? <strong style="color:var(--white)">One note inside the chord drops by one fret.</strong> Compare the E chord and Em chord you already play — you just lift one finger and it goes from happy to sad.</p>
+    <div class="hl">
+      <p><strong style="color:var(--white)">Why does this matter for keys?</strong> Every key has a fixed recipe of which chords are major and which are minor. You don't choose — the scale decides for you. The pattern is always: <span class="mono" style="color:var(--white);">Maj · min · min · Maj · Maj · min · dim</span>. So if you're in the key of G, the 1 chord (G) is major, the 2 chord (Am) is minor, and so on. This is the same in every key.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pick a Key — See All Chords</h2>
+    <p>Tap a key to see every chord that belongs to it. Blue = major, green = minor. Notice how the pattern is always the same — only the note names change.</p>
+    <div class="pill-row" id="keySel"></div>
+    <div id="keyResult"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PENTATONIC ═══════════════════ -->
+<div class="section" id="sec-pent">
+  <div class="card">
+    <h2>Pentatonic Scale Explorer</h2>
+    <p>Pick a key you're jamming in, choose major or minor, and see all 5 box positions.</p>
+
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0;">
+      <div>
+        <div style="font-size:0.72rem;color:var(--dim);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Key</div>
+        <div class="pill-row" id="pentKeySel" style="margin:0;"></div>
+      </div>
+    </div>
+    <div style="margin:8px 0;">
+      <div style="font-size:0.72rem;color:var(--dim);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Scale Type</div>
+      <div class="toggle-row" id="pentTypeToggle">
+        <button class="toggle-btn" data-v="minor">Minor (bluesy)</button>
+        <button class="toggle-btn active" data-v="major">Major (bright)</button>
+      </div>
+    </div>
+
+    <div id="pentSummary" style="margin:12px 0;"></div>
+
+    <div class="card" style="margin:0 0 14px;padding:18px;background:var(--card2);border-color:var(--border);">
+      <h3 style="color:var(--orange);margin-bottom:8px;">How to Find Box 1 For Any Key (the 3-fret trick)</h3>
+      <p>Here's all you need to figure out where to put your hand:</p>
+      <div style="margin:10px 0;">
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);">
+          <p style="margin:0;"><strong style="color:var(--white);">If you want MINOR pentatonic</strong> (bluesy) — find the key's note on the low E string. That's where Box 1 starts. Simple.</p>
+          <p style="margin:4px 0 0;font-size:0.82rem;">Example: "Jam in E minor" → E is at fret 12 → Box 1 at fret 12.</p>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);">
+          <p style="margin:0;"><strong style="color:var(--white);">If you want MAJOR pentatonic</strong> (bright) — find the key's note on the low E string, then <strong style="color:var(--orange);">go 3 frets lower</strong>. That's Box 1.</p>
+          <p style="margin:4px 0 0;font-size:0.82rem;">Example: "Jam in E major" → E is at fret 12 → 3 frets back = fret 9 → Box 1 at fret 9.</p>
+        </div>
+        <div style="padding:8px 0;">
+          <p style="margin:0;"><strong style="color:var(--white);">Why 3 frets?</strong> Because major and minor pentatonic are the same 5 notes — the minor root is just 3 frets below the major root. So the shape is identical, you're just shifting where you start it.</p>
+        </div>
+      </div>
+      <div class="hl red">
+        <p><strong style="color:var(--white);">Yes — when you toggle "Major" above, the fret number shown already has the 3-fret shift built in.</strong> But now you know how to work it out yourself for any key on the fly.</p>
+      </div>
+      <p style="margin-top:8px;"><strong style="color:var(--white);">Low E string cheat sheet:</strong></p>
+      <p class="mono" style="font-size:0.82rem;color:var(--white);line-height:2;">Open=E &nbsp;1=F &nbsp;2=F# &nbsp;3=G &nbsp;4=G# &nbsp;5=A &nbsp;6=A# &nbsp;7=B &nbsp;8=C &nbsp;9=C# &nbsp;10=D &nbsp;11=D# &nbsp;12=E</p>
+    </div>
+
+    <div class="fb-wrap"><div class="fb-inner" id="pentFb"></div></div>
+
+    <div class="legend" id="pentLegend"></div>
+  </div>
+
+  <div class="card">
+    <h2>Individual Box Shapes</h2>
+    <p>Each box shown separately so you can learn them one at a time. These are in the key selected above.</p>
+    <div id="indivBoxes"></div>
+  </div>
+
+  <div class="card">
+    <h2>Open Position Pattern</h2>
+    <p>When the pentatonic starts at fret 0, you use open strings. Here's what that looks like:</p>
+    <div id="pentOpenInfo"></div>
+    <div class="fb-wrap"><div class="fb-inner" id="openFb"></div></div>
+    <div id="pentOpenTab"></div>
+  </div>
+
+  <div class="card">
+    <h2>How Boxes Connect</h2>
+    <div class="hl red"><p><strong style="color:var(--white)">The last fret of one box is the first fret of the next.</strong> They overlap at the edges — those shared notes are your "doorways" to slide between boxes.</p></div>
+    <p style="margin-top:10px;">Order to learn them:</p>
+    <div class="learn-step"><div class="dot b1" style="width:26px;height:26px;font-size:0.68rem;flex-shrink:0;">1</div><div class="ls-text"><strong>Box 1</strong> <span>— Your home base. Learn this first.</span></div></div>
+    <div class="learn-step"><div class="dot b4" style="width:26px;height:26px;font-size:0.68rem;flex-shrink:0;">4</div><div class="ls-text"><strong>Box 4</strong> <span>— Sits right below Box 1. Natural slide down.</span></div></div>
+    <div class="learn-step"><div class="dot b2" style="width:26px;height:26px;font-size:0.68rem;flex-shrink:0;">2</div><div class="ls-text"><strong>Box 2</strong> <span>— Right above Box 1. Now you can go both directions.</span></div></div>
+    <div class="learn-step"><div class="dot b5" style="width:26px;height:26px;font-size:0.68rem;flex-shrink:0;">5</div><div class="ls-text"><strong>Box 5</strong> <span>— Below Box 4. Covering most of the neck.</span></div></div>
+    <div class="learn-step"><div class="dot b3" style="width:26px;height:26px;font-size:0.68rem;flex-shrink:0;">3</div><div class="ls-text"><strong>Box 3</strong> <span>— Fills the last gap. Full neck unlocked.</span></div></div>
+    <div class="hl green" style="margin-top:14px;"><p>Most guitarists spend 80% of their time in Box 1. Add the rest gradually.</p></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ BARRE CHORDS ═══════════════════ -->
+<div class="section" id="sec-barre">
+  <div class="card">
+    <h2>Two Shapes That Unlock Everything</h2>
+    <p>Barre chords let you play any chord anywhere using just two shapes based on the open E and A chords.</p>
+  </div>
+
+  <div class="card">
+    <h3>E-Shape Barre (Root on Low E String)</h3>
+    <p>Take your open E major/minor shape, slide it up, barre with your index finger.</p>
+    <div class="barre-pair" id="eShapes"></div>
+    <div class="hl">
+      <p><strong style="color:var(--white)">Low E string notes:</strong> <span class="mono" style="color:var(--white);">F(1) F#(2) G(3) G#(4) A(5) A#(6) B(7) C(8) C#(9) D(10) D#(11) E(12)</span></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>A-Shape Barre (Root on A String)</h3>
+    <p>Based on the open A chord. Root note on the A string (5th string).</p>
+    <div class="barre-pair" id="aShapes"></div>
+    <div class="hl">
+      <p><strong style="color:var(--white)">A string notes:</strong> <span class="mono" style="color:var(--white);">A#(1) B(2) C(3) C#(4) D(5) D#(6) E(7) F(8) F#(9) G(10) G#(11) A(12)</span></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Chord Finder — Find Any Chord</h2>
+    <p>Tap a chord name to see where to play it with both shapes:</p>
+    <div class="pill-row" id="chordFinderSel"></div>
+    <div id="chordFinderRes"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NOTE FINDER ═══════════════════ -->
+<div class="section" id="sec-finder">
+  <div class="card">
+    <h2>Fretboard Note Map</h2>
+    <p>Pick a key to see all scale notes highlighted across the entire fretboard. Red = root, blue = scale note.</p>
+    <div class="pill-row" id="finderKeySel"></div>
+    <div class="fb-wrap"><div class="fb-inner" id="finderFb"></div></div>
+  </div>
+</div>
+
+</div>
+<script>
+// ─── CORE DATA ───
+const N = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const DISP = {'C#':'C#/Db','D#':'D#/Eb','F#':'F#/Gb','G#':'G#/Ab','A#':'A#/Bb'};
+const MAJ_PAT = [2,2,1,2,2,2,1];
+const CQUAL = ['Major','minor','minor','Major','Major','minor','dim'];
+const DLBL = ['I','ii','iii','IV','V','vi','vii°'];
+const KEYS = ['C','G','D','A','E','B','F','Bb','Eb','Ab'];
+
+const PENT_MINOR = [0,3,5,7,10];
+const PENT_MAJOR = [0,2,4,7,9];
+
+// Box defs: offset from minor root on low E, patterns per string (low E → high e)
+const BOXES = [
+  {name:'Box 1',offset:0,pat:[[0,3],[0,3],[0,2],[0,2],[0,2],[0,3]]},
+  {name:'Box 2',offset:3,pat:[[0,2],[0,2],[0,2],[0,3],[0,3],[0,2]]},
+  {name:'Box 3',offset:5,pat:[[0,2],[0,3],[0,2],[0,2],[0,3],[0,2]]},
+  {name:'Box 4',offset:-3,pat:[[0,3],[0,2],[0,2],[0,3],[0,2],[0,2]]},
+  {name:'Box 5',offset:-1,pat:[[0,2],[0,2],[0,3],[0,2],[0,2],[0,3]]},
+];
+const BCOL = ['b1','b2','b3','b4','b5'];
+const BCSS = ['var(--blue)','var(--green)','var(--yellow)','var(--purple)','var(--orange)'];
+
+const STR_HI2LO = [{n:'e',o:4},{n:'B',o:11},{n:'G',o:7},{n:'D',o:2},{n:'A',o:9},{n:'E',o:4}];
+const STR_LO2HI = [{n:'E',o:4},{n:'A',o:9},{n:'D',o:2},{n:'G',o:7},{n:'B',o:11},{n:'e',o:4}];
+
+function ni(name){const m={'Bb':10,'Eb':3,'Ab':8,'Db':1,'Gb':6};return m[name]!==undefined?m[name]:N.indexOf(name);}
+function dn(n){return DISP[n]||n;}
+function dk(k){return{'Bb':'Bb','Eb':'Eb','Ab':'Ab'}[k]||k;}
+function getScale(root){let i=ni(root),s=[];for(let j=0;j<7;j++){s.push(N[i%12]);i+=MAJ_PAT[j];}return s;}
+function fretOnLowE(noteIdx){let f=(noteIdx-4+12)%12;return f===0?12:f;}
+function fretOnA(noteIdx){let f=(noteIdx-9+12)%12;return f===0?12:f;}
+
+// ─── NAV ───
+document.getElementById('mainNav').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+e.target.dataset.s).classList.add('active');
+});
+
+// ─── HELPER: make pill row ───
+function makePills(container, items, defaultVal, cls, cb){
+  items.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='pill'+(cls?' '+cls:'')+(k===defaultVal?' active':'');
+    b.textContent=dk(k);
+    b.addEventListener('click',()=>{
+      container.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+      b.classList.add('active');
+      cb(k);
+    });
+    container.appendChild(b);
+  });
+}
+
+// ─── HELPER: build fretboard HTML ───
+function buildFbHtml(noteMap, maxFret, strArr){
+  let h='<div class="fb-nums">';
+  for(let f=0;f<=maxFret;f++)h+=`<span>${f||'O'}</span>`;
+  h+='</div>';
+  strArr.forEach((str,si)=>{
+    h+=`<div class="fb-row"><span class="fb-lbl">${str.n}</span>`;
+    for(let f=0;f<=maxFret;f++){
+      h+='<div class="fb-cell">';
+      const info=noteMap[si]?.[f];
+      if(info){
+        h+=`<div class="dot ${info.cls}${info.muted?' muted':''}">${info.label}</div>`;
+      }
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  return h;
+}
+
+// ═══════════════════ KEY EXPLORER ═══════════════════
+makePills(document.getElementById('keySel'),KEYS,'C','',showKey);
+function showKey(key){
+  const sc=getScale(key);
+  let h='<div class="chord-grid">';
+  sc.forEach((note,i)=>{
+    const q=CQUAL[i],cls=q==='Major'?'maj':q==='minor'?'min':'dim';
+    const cn=q==='minor'?dn(note)+'m':q==='dim'?dn(note)+'°':dn(note);
+    h+=`<div class="chord-box ${cls}"><div class="deg">${DLBL[i]}</div><div class="cn">${cn}</div><div class="ct">${q}</div></div>`;
+  });
+  h+='</div>';
+  const mn=(n,i)=>CQUAL[i]==='minor'?dn(n)+'m':dn(n);
+  h+=`<div style="margin-top:14px;">
+    <p style="font-size:0.84rem;color:var(--dim);margin-bottom:6px;"><strong style="color:var(--white)">Common progressions in ${dk(key)}:</strong></p>
+    <div class="prog-row"><span class="prog-label">1-4-5</span><span class="prog-chords">${dn(sc[0])} – ${dn(sc[3])} – ${dn(sc[4])}</span></div>
+    <div class="prog-row"><span class="prog-label">1-5-6-4</span><span class="prog-chords">${dn(sc[0])} – ${dn(sc[4])} – ${mn(sc[5],5)} – ${dn(sc[3])}</span></div>
+    <div class="prog-row"><span class="prog-label">1-6-4-5</span><span class="prog-chords">${dn(sc[0])} – ${mn(sc[5],5)} – ${dn(sc[3])} – ${dn(sc[4])}</span></div>
+  </div>`;
+  // Pentatonic tip
+  const relMin=sc[5];
+  const rmFret=fretOnLowE(ni(relMin));
+  const rootFret=fretOnLowE(ni(key));
+  h+=`<div class="hl green" style="margin-top:14px;">
+    <p><strong style="color:var(--white)">To solo in ${dk(key)}:</strong><br>
+    Minor pentatonic: <span class="mono" style="color:var(--white)">${dn(relMin)}m pent → Box 1 at fret ${rmFret}</span> (bluesy)<br>
+    Major pentatonic: <span class="mono" style="color:var(--white)">${dk(key)} major pent → Box 1 at fret ${rootFret}</span> (bright)</p>
+  </div>`;
+  document.getElementById('keyResult').innerHTML=h;
+}
+showKey('C');
+
+// ═══════════════════ PENTATONIC ═══════════════════
+let pentKey='E', pentType='major', pentActiveBox=-1;
+
+makePills(document.getElementById('pentKeySel'),KEYS,'E','',k=>{pentKey=k;renderPent();});
+document.getElementById('pentTypeToggle').addEventListener('click',e=>{
+  if(!e.target.dataset.v)return;
+  document.querySelectorAll('#pentTypeToggle .toggle-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  pentType=e.target.dataset.v;
+  renderPent();
+});
+
+function getPentRoot(){
+  if(pentType==='minor') return ni(pentKey);
+  // Major pent: root IS the key
+  return ni(pentKey);
+}
+function getMinorRootForBoxes(){
+  // Boxes are defined relative to the minor root
+  if(pentType==='minor') return ni(pentKey);
+  // For major: relative minor is 3 semitones below
+  return (ni(pentKey) - 3 + 12) % 12;
+}
+
+function renderPent(){
+  const pentRoot = getPentRoot();
+  const intervals = pentType==='minor' ? PENT_MINOR : PENT_MAJOR;
+  const pentNotes = new Set(intervals.map(i=>(pentRoot+i)%12));
+  const minorRoot = getMinorRootForBoxes();
+  const minorFret = fretOnLowE(minorRoot);
+  const maxFret = 16;
+
+  // Summary
+  const notes = intervals.map(i=>N[(pentRoot+i)%12]);
+  const rootFret = fretOnLowE(pentRoot);
+  document.getElementById('pentSummary').innerHTML=`
+    <div class="hl${pentType==='minor'?' red':''}" style="${pentType==='major'?'border-color:var(--blue);background:var(--blue-g);':''}">
+      <p><strong style="color:var(--white)">${dk(pentKey)} ${pentType} pentatonic</strong><br>
+      Notes: <span class="mono" style="color:var(--white)">${notes.map(dn).join(' · ')}</span><br>
+      Box 1 starts at: <span class="mono" style="color:var(--white)">fret ${minorFret}</span> on the low E string</p>
+    </div>`;
+
+  // Build full fretboard with boxes
+  const noteMap=Array.from({length:6},()=>({}));
+  BOXES.forEach((box,bi)=>{
+    let sf=minorFret+box.offset;
+    while(sf<0)sf+=12;
+    while(sf>12)sf-=12;
+    const pats=[...box.pat].reverse(); // now hi e first
+    pats.forEach((pat,si)=>{
+      pat.forEach(off=>{
+        let f=sf+off;
+        if(f>=0&&f<=maxFret){
+          const nIdx=(STR_HI2LO[si].o+f)%12;
+          if(pentNotes.has(nIdx)&&!noteMap[si][f]){
+            const isRoot=nIdx===pentRoot;
+            noteMap[si][f]={cls:isRoot?'root':BCOL[bi],label:N[nIdx],muted:pentActiveBox!==-1&&bi!==pentActiveBox};
+          }
+        }
+      });
+    });
+  });
+  document.getElementById('pentFb').innerHTML=buildFbHtml(noteMap,maxFret,STR_HI2LO);
+
+  // Legend
+  const leg=document.getElementById('pentLegend');
+  leg.innerHTML='';
+  const mkLeg=(label,color,idx)=>{
+    const d=document.createElement('div');
+    d.className='leg-item'+(pentActiveBox===idx?' active':'');
+    d.innerHTML=`<div class="leg-dot" style="background:${color}"></div><span>${label}</span>`;
+    d.addEventListener('click',()=>{pentActiveBox=idx;renderPent();});
+    leg.appendChild(d);
+  };
+  mkLeg('All','var(--red)',-1);
+  BOXES.forEach((b,i)=>mkLeg(b.name,BCSS[i],i));
+
+  // Individual boxes
+  renderIndivBoxes(pentRoot, pentNotes, minorRoot, minorFret);
+
+  // Open position
+  renderOpenPosition(pentRoot, pentNotes);
+}
+
+function renderIndivBoxes(pentRoot, pentNotes, minorRoot, minorFret){
+  let h='';
+  BOXES.forEach((box,bi)=>{
+    let sf=minorFret+box.offset;
+    while(sf<0)sf+=12;
+    while(sf>12)sf-=12;
+    const ef=sf+3;
+    h+=`<div style="margin:16px 0 22px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <div class="dot ${BCOL[bi]}" style="width:24px;height:24px;font-size:0.65rem;">${bi+1}</div>
+        <strong style="color:var(--white);font-size:0.92rem;">${box.name}</strong>
+        <span style="color:var(--dim);font-size:0.8rem;">— Frets ${sf}–${ef}</span>
+      </div>`;
+    h+='<div style="overflow-x:auto;"><div style="min-width:220px;">';
+    h+=`<div style="display:flex;margin-left:28px;">`;
+    for(let f=sf;f<=ef;f++)h+=`<span style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#444;">${f}</span>`;
+    h+='</div>';
+    box.pat.forEach((pat,si)=>{
+      h+=`<div class="fb-row"><span class="fb-lbl">${STR_LO2HI[si].n}</span>`;
+      for(let f=sf;f<=ef;f++){
+        const relF=f-sf;
+        const nIdx=(STR_LO2HI[si].o+f)%12;
+        const isNote=pat.includes(relF)&&pentNotes.has(nIdx);
+        h+='<div class="fb-cell">';
+        if(isNote){
+          const cls=nIdx===pentRoot?'root':BCOL[bi];
+          h+=`<div class="dot ${cls}">${N[nIdx]}</div>`;
+        }
+        h+='</div>';
+      }
+      h+='</div>';
+    });
+    h+='</div></div></div>';
+  });
+  document.getElementById('indivBoxes').innerHTML=h;
+}
+
+function renderOpenPosition(pentRoot, pentNotes){
+  const noteMap=Array.from({length:6},()=>({}));
+  const maxF=4;
+  STR_HI2LO.forEach((str,si)=>{
+    for(let f=0;f<=maxF;f++){
+      const nIdx=(str.o+f)%12;
+      if(pentNotes.has(nIdx)){
+        noteMap[si][f]={cls:nIdx===pentRoot?'root':'b1',label:N[nIdx],muted:false};
+      }
+    }
+  });
+  // Check if there are any notes in open position
+  let hasNotes=false;
+  for(let si=0;si<6;si++)for(let f=0;f<=maxF;f++)if(noteMap[si][f])hasNotes=true;
+
+  const info=document.getElementById('pentOpenInfo');
+  if(!hasNotes){
+    info.innerHTML=`<div class="hl"><p>This key's pentatonic doesn't have a useful open position pattern. Box 1 starts higher up the neck.</p></div>`;
+    document.getElementById('openFb').innerHTML='';
+    document.getElementById('pentOpenTab').innerHTML='';
+    return;
+  }
+  info.innerHTML=`<div class="hl green"><p><strong style="color:var(--white)">${dk(pentKey)} ${pentType} pentatonic in open position.</strong> Open strings (fret 0) are played without fretting anything.</p></div>`;
+  document.getElementById('openFb').innerHTML=buildFbHtml(noteMap,maxF,STR_HI2LO);
+  document.getElementById('pentOpenTab').innerHTML='';
+}
+
+renderPent();
+
+// ═══════════════════ BARRE CHORDS ═══════════════════
+function drawBarre(canvas,shape,variant){
+  const ctx=canvas.getContext('2d');
+  const w=110,h=140;
+  canvas.width=w*2;canvas.height=h*2;
+  canvas.style.width=w+'px';canvas.style.height=h+'px';
+  ctx.scale(2,2);
+  const L=18,T=18,R=w-14,B=h-14;
+  const sw=(R-L)/5,fh=(B-T)/4;
+  ctx.strokeStyle='#2e2e50';ctx.lineWidth=1;
+  for(let f=0;f<=4;f++){ctx.beginPath();ctx.moveTo(L,T+f*fh);ctx.lineTo(R,T+f*fh);ctx.stroke();}
+  ctx.strokeStyle='#5a5a7a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(R,T);ctx.stroke();
+  for(let s=0;s<6;s++){ctx.strokeStyle='#3a3a5a';ctx.lineWidth=0.7+s*0.25;ctx.beginPath();ctx.moveTo(L+s*sw,T);ctx.lineTo(L+s*sw,B);ctx.stroke();}
+
+  // Barre
+  ctx.strokeStyle='#ddd';ctx.lineWidth=3.5;ctx.lineCap='round';
+  if(shape==='E'){ctx.beginPath();ctx.moveTo(L,T+fh*.5);ctx.lineTo(R,T+fh*.5);ctx.stroke();}
+  else{ctx.beginPath();ctx.moveTo(L+sw,T+fh*.5);ctx.lineTo(R,T+fh*.5);ctx.stroke();
+    ctx.strokeStyle='#f04a4a';ctx.lineWidth=1.5;const cx=L,cy=T-7;
+    ctx.beginPath();ctx.moveTo(cx-3,cy-3);ctx.lineTo(cx+3,cy+3);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+3,cy-3);ctx.lineTo(cx-3,cy+3);ctx.stroke();}
+
+  let dots;
+  if(shape==='E'&&variant==='major')dots=[[1,3],[2,3],[3,2]];
+  else if(shape==='E'&&variant==='minor')dots=[[1,3],[2,3]];
+  else if(shape==='A'&&variant==='major')dots=[[2,3],[3,3],[4,3]];
+  else dots=[[2,3],[3,2],[4,3]];
+
+  ctx.fillStyle=variant==='major'?'var(--blue)':'var(--green)';
+  ctx.fillStyle=variant==='major'?'#4a90f0':'#3cc77a';
+  dots.forEach(([s,f])=>{ctx.beginPath();ctx.arc(L+s*sw,T+(f-.5)*fh,5.5,0,Math.PI*2);ctx.fill();});
+
+  ctx.fillStyle='#f0564a';
+  if(shape==='E'){ctx.beginPath();ctx.arc(L,T+fh*.5,5.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(R,T+fh*.5,5.5,0,Math.PI*2);ctx.fill();}
+  else{ctx.beginPath();ctx.arc(L+sw,T+fh*.5,5.5,0,Math.PI*2);ctx.fill();}
+}
+
+function createBarreSet(id,shape){
+  const c=document.getElementById(id);
+  ['major','minor'].forEach(v=>{
+    const d=document.createElement('div');
+    d.className='barre-card';
+    const lbl=document.createElement('div');
+    lbl.className='bl';
+    lbl.style.color=v==='major'?'var(--blue)':'var(--green)';
+    lbl.textContent=shape+'-Shape '+v;
+    d.appendChild(lbl);
+    const cv=document.createElement('canvas');
+    d.appendChild(cv);
+    drawBarre(cv,shape,v);
+    const rootStr=shape==='E'?'Low E (6th)':'A (5th)';
+    const info=document.createElement('div');
+    info.className='bi';
+    info.innerHTML=`<span style="color:var(--red)">●</span> root on ${rootStr} string<br><span style="color:${v==='major'?'var(--blue)':'var(--green)'}">●</span> fingers &nbsp;— barre`;
+    d.appendChild(info);
+    c.appendChild(d);
+  });
+}
+createBarreSet('eShapes','E');
+createBarreSet('aShapes','A');
+
+// Chord finder
+const ALL_CHORDS=['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+makePills(document.getElementById('chordFinderSel'),ALL_CHORDS,'C','',showChordFinder);
+function showChordFinder(chord){
+  const idx=ni(chord);
+  let ef=fretOnLowE(idx),af=fretOnA(idx);
+  document.getElementById('chordFinderRes').innerHTML=`
+    <div class="find-res">
+      <div class="find-box" style="background:var(--blue-g);border:1px solid rgba(74,144,240,0.3);border-radius:10px;">
+        <div class="fl" style="color:var(--blue);">E-SHAPE</div>
+        <div class="fv">${dn(chord)} → Fret ${ef}</div>
+        <div class="fd">Barre on fret ${ef}, root on low E string</div>
+        <div class="fd">Minor: use Em shape</div>
+      </div>
+      <div class="find-box" style="background:var(--green-g);border:1px solid rgba(60,199,122,0.3);border-radius:10px;">
+        <div class="fl" style="color:var(--green);">A-SHAPE</div>
+        <div class="fv">${dn(chord)} → Fret ${af}</div>
+        <div class="fd">Barre on fret ${af}, root on A string</div>
+        <div class="fd">Minor: use Am shape</div>
+      </div>
+    </div>`;
+}
+showChordFinder('C');
+
+// ═══════════════════ NOTE FINDER ═══════════════════
+makePills(document.getElementById('finderKeySel'),KEYS,'C','',showFinderFb);
+function showFinderFb(key){
+  const sc=getScale(key);
+  const root=ni(key);
+  const maxF=15;
+  const noteMap=Array.from({length:6},()=>({}));
+  STR_HI2LO.forEach((str,si)=>{
+    for(let f=0;f<=maxF;f++){
+      const nIdx=(str.o+f)%12;
+      if(sc.includes(N[nIdx])){
+        noteMap[si][f]={cls:nIdx===root?'root':'scale',label:dn(N[nIdx]),muted:false};
+      }
+    }
+  });
+  document.getElementById('finderFb').innerHTML=buildFbHtml(noteMap,maxF,STR_HI2LO);
+}
+showFinderFb('C');
+
+</script>
+</body>
+</html>

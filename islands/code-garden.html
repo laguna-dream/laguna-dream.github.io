@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Code Garden</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #060d06;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #4a7c59;
+      gap: 14px;
+    }
+
+    header {
+      font-size: 0.8rem;
+      letter-spacing: 7px;
+      opacity: 0.55;
+      text-transform: uppercase;
+    }
+
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    footer {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      opacity: 0.38;
+    }
+
+    #controls {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      opacity: 0.45;
+    }
+
+    #controls button {
+      background: none;
+      border: 1px solid #2a4a2a;
+      color: #4a7c59;
+      padding: 3px 10px;
+      cursor: pointer;
+      letter-spacing: 2px;
+      font-family: inherit;
+      font-size: 0.65rem;
+      margin: 0 4px;
+    }
+
+    #controls button:hover {
+      background: #0f200f;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>code garden</header>
+  <canvas id="c"></canvas>
+  <div id="controls">
+    <button id="btnReset">[ reset ]</button>
+    <button id="btnSlow">[ slow ]</button>
+    <button id="btnNormal">[ normal ]</button>
+    <button id="btnFast">[ fast ]</button>
+  </div>
+  <footer id="stats">initializing...</footer>
+
+  <script>
+    'use strict';
+
+    // ── Config ────────────────────────────────────────────────────────────────────
+    const G = 64;       // grid dimension
+    const CELL = 8;        // canvas pixels per grid cell
+    const GROW = 20;       // cycles to full bloom
+    const BLOOM = 10;       // cycles at full bloom
+    const FADE = 15;       // cycles to die
+    const RMAX = 4.5;      // max flower radius in grid units
+    const PLIM = 200;      // max concurrent plants
+
+    let CYC = 280;            // ms per simulation cycle (mutable for speed control)
+
+    const PALETTE = [
+      '#f72585', '#b5179e', '#7209b7',
+      '#ff6b6b', '#ffd93d', '#6bcb77',
+      '#4d96ff', '#00b4d8', '#ff9f1c',
+      '#f4a261', '#e9c46a', '#a8dadc',
+    ];
+
+    // ── Canvas ────────────────────────────────────────────────────────────────────
+    const canvas = document.getElementById('c');
+    canvas.width = G * CELL;
+    canvas.height = G * CELL;
+    const ctx = canvas.getContext('2d');
+    const stats = document.getElementById('stats');
+
+    // ── Simulation state ──────────────────────────────────────────────────────────
+    let plants = [];
+    let projectiles = [];
+    let cycleNum = 0;
+    let lastCycTm = 0;
+
+    // ── Utility ───────────────────────────────────────────────────────────────────
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const irand = (a, b) => Math.floor(rand(a, b + 1));
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    function parseColor(s) {
+      if (!s) return [128, 128, 128];
+      if (s.startsWith('#')) return [parseInt(s.slice(1, 3), 16), parseInt(s.slice(3, 5), 16), parseInt(s.slice(5, 7), 16)];
+      const m = s.match(/\d+/g);
+      return m ? m.slice(0, 3).map(Number) : [128, 128, 128];
+    }
+
+    function lerpC(a, b, t) {
+      const [r1, g1, b1] = parseColor(a), [r2, g2, b2] = parseColor(b);
+      return `rgb(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)})`;
+    }
+
+    function brighten(c, amt) {
+      const [r, g, b] = parseColor(c);
+      return `rgb(${clamp(r + amt, 0, 255)},${clamp(g + amt, 0, 255)},${clamp(b + amt, 0, 255)})`;
+    }
+
+    // ── Plant ─────────────────────────────────────────────────────────────────────
+    class Plant {
+      constructor(x, y) {
+        this.x = clamp(Math.round(x), 2, G - 3);
+        this.y = clamp(Math.round(y), 2, G - 3);
+        this.age = 0;
+        this.state = 'seed';
+        this.color = PALETTE[irand(0, PALETTE.length - 1)];
+        this.petalOff = rand(0, Math.PI * 2);
+        this.nPetals = irand(5, 7);
+        this.swayPh = rand(0, Math.PI * 2);
+        this.seedBudg = irand(2, 3);   // how many seeds this flower can drop
+      }
+
+      step(addProj) {
+        this.age++;
+        if (this.age <= 1) this.state = 'seed';
+        else if (this.age <= GROW) this.state = 'growing';
+        else if (this.age <= GROW + BLOOM) this.state = 'blooming';
+        else if (this.age <= GROW + BLOOM + FADE) this.state = 'dying';
+        else this.state = 'dead';
+
+        // Drop seeds randomly during bloom phase
+        if (this.state === 'blooming' && this.seedBudg > 0 && Math.random() < 0.32) {
+          const ang = rand(0, Math.PI * 2);
+          const dist = rand(8, 18);
+          const tx = this.x + Math.cos(ang) * dist;
+          const ty = this.y + Math.sin(ang) * dist;
+          if (tx >= 2 && tx < G - 2 && ty >= 2 && ty < G - 2) {
+            addProj(this.x, this.y, tx, ty);
+            this.seedBudg--;
+          }
+        }
+      }
+
+      get alive() { return this.state !== 'dead'; }
+      get gf() { return clamp(this.age / GROW, 0, 1); }
+
+      get df() {
+        if (this.state !== 'dying') return 0;
+        return (this.age - GROW - BLOOM) / FADE;
+      }
+
+      radius() {
+        switch (this.state) {
+          case 'seed': return 0.5;
+          case 'growing': return 0.5 + this.gf * (RMAX - 0.5);
+          case 'blooming': return RMAX;
+          case 'dying': return RMAX * (1 - this.df * 0.78);
+          default: return 0;
+        }
+      }
+
+      petalColor() {
+        const { state, gf, df, color } = this;
+        if (state === 'seed') return '#7a5c30';
+        if (state === 'growing') {
+          if (gf < 0.2) return lerpC('#7a5c30', '#2d6a2d', gf / 0.2);
+          return lerpC('#2d6a2d', color, (gf - 0.2) / 0.8);
+        }
+        if (state === 'blooming') return color;
+        if (state === 'dying') return lerpC(color, '#3a2415', df);
+        return '#3a2415';
+      }
+
+      centerColor() { return brighten(this.petalColor(), 60); }
+
+      stemColor() {
+        if (this.state === 'dying') return lerpC('#316b31', '#3a2415', this.df);
+        return '#316b31';
+      }
+    }
+
+    // ── Seed Projectile ───────────────────────────────────────────────────────────
+    class Proj {
+      constructor(fx, fy, tx, ty) {
+        this.fx = fx; this.fy = fy;
+        this.tx = tx; this.ty = ty;
+        this.t = 0;
+        this.spd = rand(0.028, 0.048);
+        this.arc = rand(3.5, 7);      // fixed arc height so path is smooth
+        this.done = false;
+      }
+
+      step() {
+        this.t = Math.min(1, this.t + this.spd);
+        if (this.t >= 1) this.done = true;
+      }
+
+      pos() {
+        const t = this.t;
+        return {
+          x: this.fx + (this.tx - this.fx) * t,
+          y: this.fy + (this.ty - this.fy) * t - Math.sin(t * Math.PI) * this.arc,
+        };
+      }
+    }
+
+    // ── Init / spawn ──────────────────────────────────────────────────────────────
+    function init() {
+      plants = []; projectiles = []; cycleNum = 0; lastCycTm = 0;
+      for (let i = 0; i < 5; i++) {
+        plants.push(new Plant(irand(5, G - 6), irand(5, G - 6)));
+      }
+    }
+
+    function addProj(fx, fy, tx, ty) {
+      if (plants.length + projectiles.length < PLIM) {
+        projectiles.push(new Proj(fx, fy, tx, ty));
+      }
+    }
+
+    // ── Simulation step ───────────────────────────────────────────────────────────
+    function doStep() {
+      cycleNum++;
+      for (const p of plants) p.step(addProj);
+      plants = plants.filter(p => p.alive);
+      // Re-seed if garden dies completely
+      if (plants.length === 0 && projectiles.length === 0) init();
+      stats.textContent = `cycle ${cycleNum}  ·  ${plants.length} plants  ·  ${projectiles.length} seeds aloft`;
+    }
+
+    // ── Drawing ───────────────────────────────────────────────────────────────────
+    function fillCell(x, y, color) {
+      if (x < 0 || x >= G || y < 0 || y >= G) return;
+      ctx.fillStyle = color;
+      ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
+    }
+
+    function drawPlant(p, now) {
+      const r = p.radius();
+      if (r <= 0) return;
+
+      const sway = Math.sin(now * 0.00085 + p.swayPh) * (p.state === 'blooming' ? 0.5 : 0.2);
+      const cx = p.x + sway;  // float sway center
+      const pc = p.petalColor();
+      const cc = p.centerColor();
+      const sc = p.stemColor();
+
+      // Seed — single dot
+      if (p.state === 'seed') {
+        fillCell(p.x, p.y, pc);
+        return;
+      }
+
+      // Stem (grows downward, tapers sway toward root)
+      const stemLen = clamp(Math.round(r * 0.65), 1, 4);
+      for (let i = 1; i <= stemLen; i++) {
+        fillCell(Math.round(cx * (1 - i / (stemLen + 1)) + p.x * (i / (stemLen + 1))), p.y + i, sc);
+      }
+
+      // Tiny bud — no petals yet
+      if (r < 1.1) {
+        fillCell(Math.round(cx), p.y, pc);
+        return;
+      }
+
+      // Petals
+      const petalDist = r * 0.62;
+      const petalR = r * 0.43;
+      const petalR2 = petalR * petalR;
+      const petalRi = Math.ceil(petalR);
+
+      for (let i = 0; i < p.nPetals; i++) {
+        const ang = p.petalOff + (i / p.nPetals) * Math.PI * 2;
+        const px = cx + Math.cos(ang) * petalDist;
+        const py = p.y + Math.sin(ang) * petalDist;
+        for (let dy = -petalRi; dy <= petalRi; dy++) {
+          for (let dx = -petalRi; dx <= petalRi; dx++) {
+            if (dx * dx + dy * dy <= petalR2) {
+              fillCell(Math.round(px + dx), Math.round(py + dy), pc);
+            }
+          }
+        }
+      }
+
+      // Center disk (brighter)
+      const centR = r * 0.33;
+      const centR2 = centR * centR;
+      const centRi = Math.ceil(centR);
+      for (let dy = -centRi; dy <= centRi; dy++) {
+        for (let dx = -centRi; dx <= centRi; dx++) {
+          if (dx * dx + dy * dy <= centR2) {
+            fillCell(Math.round(cx + dx), Math.round(p.y + dy), cc);
+          }
+        }
+      }
+    }
+
+    function drawBackground() {
+      // Dark soil
+      ctx.fillStyle = '#0a130a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Subtle vignette
+      const vg = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height / 2, canvas.width * 0.25,
+        canvas.width / 2, canvas.height / 2, canvas.width * 0.72
+      );
+      vg.addColorStop(0, 'rgba(0,0,0,0)');
+      vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Very subtle grid
+      ctx.strokeStyle = '#0e190e';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i <= G; i++) {
+        ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, canvas.height); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(canvas.width, i * CELL); ctx.stroke();
+      }
+    }
+
+    // ── Main loop ─────────────────────────────────────────────────────────────────
+    function loop(now) {
+      // Simulation tick
+      if (now - lastCycTm >= CYC) {
+        doStep();
+        lastCycTm = now;
+      }
+
+      // Advance projectiles every frame
+      for (const s of projectiles) s.step();
+      const landed = projectiles.filter(s => s.done);
+      projectiles = projectiles.filter(s => !s.done);
+      for (const s of landed) {
+        if (plants.length < PLIM) plants.push(new Plant(s.tx, s.ty));
+      }
+
+      // ── Render ────
+      drawBackground();
+
+      // Draw order: dying → growing/seed → blooming (newest on top)
+      const layers = { dying: [], seed: [], growing: [], blooming: [] };
+      for (const p of plants) if (layers[p.state]) layers[p.state].push(p);
+      for (const p of [...layers.dying, ...layers.seed, ...layers.growing, ...layers.blooming]) {
+        drawPlant(p, now);
+      }
+
+      // Flying seeds — bright golden dots with a short trail
+      for (const s of projectiles) {
+        const pos = s.pos();
+        const gx = Math.round(pos.x), gy = Math.round(pos.y);
+        fillCell(gx, gy, '#ffe066');
+        // Trail pixel
+        const prevT = Math.max(0, s.t - s.spd);
+        const px2 = Math.round(s.fx + (s.tx - s.fx) * prevT);
+        const py2 = Math.round(s.fy + (s.ty - s.fy) * prevT - Math.sin(prevT * Math.PI) * s.arc);
+        if (px2 !== gx || py2 !== gy) fillCell(px2, py2, '#b89a20');
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    // ── Controls ──────────────────────────────────────────────────────────────────
+    document.getElementById('btnReset').onclick = () => init();
+    document.getElementById('btnSlow').onclick = () => { CYC = 600; };
+    document.getElementById('btnNormal').onclick = () => { CYC = 280; };
+    document.getElementById('btnFast').onclick = () => { CYC = 80; };
+    document.addEventListener('keydown', e => { if (e.key === 'r' || e.key === 'R') init(); });
+
+    init();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+
+</html>
