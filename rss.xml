@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0">
   <channel>
-
-
+    <title>seafoam palace</title>
+    <link>https://laguna-dream.github.io</link>
     <item>
       <title>music making</title>
       <link>https://laguna-dream.github.io/writing/musicmaking.html</link>
-      <guid>https://laguna-dream.github.io/writing/musicmaking.html</guid>
-      <pubDate>Thu, 19 Feb 2026 21:09:01 GMT</pubDate>
-      <category>writing</category>
-      <description></description>
+      <guid isPermaLink="true">https://laguna-dream.github.io/writing/musicmaking.html</guid>
+      <pubDate>Wed, 11 Feb 2026 00:00:00 GMT</pubDate>
+      <author>simar</author>
     </item>
-
-
+    <item>
+      <title>meaning of life</title>
+      <link>https://laguna-dream.github.io/writing/meaningoflife.html</link>
+      <guid isPermaLink="true">https://laguna-dream.github.io/writing/meaningoflife.html</guid>
+      <pubDate>Sun, 08 Feb 2026 00:00:00 GMT</pubDate>
+      <author>simar</author>
+    </item>
+    <item>
+      <title>predictions for 2026</title>
+      <link>https://laguna-dream.github.io/writing/predictions.html</link>
+      <guid isPermaLink="true">https://laguna-dream.github.io/writing/predictions.html</guid>
+      <pubDate>Sun, 08 Feb 2026 00:00:00 GMT</pubDate>
+      <author>simar</author>
+    </item>
   </channel>
 </rss>
