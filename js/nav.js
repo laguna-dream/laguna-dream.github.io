@@ -12,7 +12,7 @@
         <a href="/index.html">home</a>
         <a href="/pages/writing.html">writing</a>
         <a href="/pages/notebook.html">notebook</a>
-        <a href="/pages/garden.html">garden</a>
+        <a href="/pages/garden.html">library</a>
         <a href="/pages/about.html">about</a>
     </nav>`;
 

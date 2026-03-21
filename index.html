@@ -205,10 +205,27 @@
 
         /* -- in the works box -- */
         .section.todo {
-            display: inline-block;
+            width: 700px;
+            margin-left: -205px;
             border: 1px solid #ccc;
-            padding: 10px 14px;
+            padding: 14px 18px;
             background: #f9f9f7;
+            box-sizing: border-box;
+            display: flex;
+            gap: 20px;
+        }
+
+        .noticeboard-text {
+            flex: 1;
+        }
+
+        .noticeboard-images {
+            width: 250px;
+        }
+
+        .noticeboard-images img {
+            max-width: 100%;
+            border-radius: 4px;
         }
 
         /* -- credits -- */
@@ -333,9 +350,11 @@
                 regularly</p>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=zEij1leH7M8&t=449s" target="_blank"
-                    rel="noopener noreferrer">music: les rallizes denudes 1970</a>
-                <div class="caption">tender afternoon noise</div>
+                <a href="https://drive.google.com/file/d/1KRQFKVlyFNI9v9c5Y6M6N3atBdFFborj/view?ts=69ad5037"
+                    target="_blank" rel="noopener noreferrer">book: an album of fluid motion</a>
+                <div class="caption">photo book documenting fluid flow phenomenon - interesting inspiration for
+                    making visuals in touchdesigner
+                </div>
             </div>
 
             <div class="link-item">
@@ -345,31 +364,25 @@
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=TvV4wzN_oh4&t=163s" target="_blank"
-                    rel="noopener noreferrer">music: Lindsheaven Virtual Plaza — Rainforest Hill</a>
-                <div class="caption">good music to shut yourself in a room to. wet, metallic, tropical.</div>
+                <a href="https://youtu.be/T8brDNOgB3g?si=QYY0acUX-vRyFiGy" target="_blank"
+                    rel="noopener noreferrer">music: flowers of evil - suzanne ciani</a>
+                <div class="caption">i've come across at least 2 early electronic works by women
+                    that are inspired by <i>flowers of evil</i>. the other is by ruth white.
+                </div>
             </div>
 
             <div class="link-item">
-                <a href="https://karnatakatravel.blogspot.com/2021/01/savandurga-overnight-stay-one.html"
-                    target="_blank" rel="noopener noreferrer">blog: savandurga - overnight stay one</a>
-                <div class="caption">endearing. i would like to collect older travel blogs like this to build an
-                    archive, or a travel guide of sorts.</div>
+                <a href="https://youtu.be/TzzWBDUe2M8?si=x2ic9m0S6EV4h0Hy" target="_blank"
+                    rel="noopener noreferrer">music: dean blunt and inga copeland - progression</a>
+                <div class="caption">music to dissolve into</div>
             </div>
 
             <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=NxiPYPwV9kU" target="_blank" rel="noopener noreferrer">tv:
-                    anthony bourdain: parts unknown | miami</a>
-                <div class="caption">i enjoyed this episode.</div>
+                <a href="https://www.informit.com/articles/article.aspx?p=2854376" target="_blank"
+                    rel="noopener noreferrer">text: shader math</a>
+                <div class="caption">currently perusing</div>
             </div>
 
-            <div class="link-item">
-                <a href="https://www.youtube.com/watch?v=eJxUQf6HSaI" target="_blank" rel="noopener noreferrer">tv:
-                    freaks and geeks episode 1</a>
-                <div class="caption">rewatched recently. timeless, funny.
-                    on becoming, figuring. poking at social order and constructs.
-                    discovering their malleability. the breaking of illusions.</div>
-            </div>
         </div>
 
         <div class="section">
@@ -379,15 +392,23 @@
         </div>
 
         <div class="section todo">
-            <b> legend / in the works </b>
-            <small>
-                𓇙 curios: building a shelf to put interesting things i find on my current travels.<br>
-                𓇙 garden: influences, archives, formative stuff<br>
-                𓇙 notebook: for quick thoughts<br>
-                𓇙 writing: for longer pieces<br>
-                𓇙 would like to build a noticeboard for the home page - updates on where i am, what i'm upto. also
-                website updates. <br>
-            </small>
+            <div class="noticeboard-text">
+                <b> noticeboard </b>
+                <small>
+                    𓇙 currently in bangalore! working on music and visuals this month. and a few writing pieces.<br>
+                    𓇙 exploring websockets, maybe for interactive live visuals for a <a
+                        href="https://livecode-blr.vercel.app/">livecode.blr gig</a> i'm playing on april
+                    5<br>
+                    𓇙 visit notebook - for personal/work updates<br>
+                    𓇙 still figuring out format for the 'library' - want it to host archives of books, music, and other
+                    things i collect in my travels.<br>
+                    <br>
+                </small>
+            </div>
+            <div class="noticeboard-images">fo
+                <img src="/assets/image1.jpeg" n alt="">
+                <small style="font-size:0.7rem; color:#666;">aldona, goa, feb 2026</small>
+            </div>
         </div>
 
     </div>
