@@ -1,6 +1,13 @@
 
 **[NaPoWriMo 2026](https://www.napowrimo.net/)**
 
+25th april
+
+"i'm going to swim"
+"till "
+
+
+
 
 **[16th April 2026](https://www.napowrimo.net/day-sixteen-13/)**
 
@@ -12,11 +19,12 @@ How might I ever tell you
 How much delight you've brought me!
 
 You've hosted me well 
-as I've clung to the engine of a plane,
+as I've clung to you,
 hurled myself across
 continents, rolling across a 1000 beds at once,
 bringing home all sorts of strange suspicious creatures,
 that you've made room for, let them run
+
 
 Sometimes i don't listen to you, oh -
 i have not been the best and don't i know it
