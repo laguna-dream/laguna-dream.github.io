@@ -3,6 +3,15 @@
   <channel>
     <title>seafoam palace</title>
     <link>https://laguna-dream.github.io</link>
+
+    <item>
+      <title>all my online presences</title>
+      <link>https://laguna-dream.github.io/writing/presences.html</link>
+      <guid isPermaLink="true">https://laguna-dream.github.io/writing/presences.html</guid>
+      <pubDate>Fri, 23 Oct 2026 06:55:28 GMT</pubDate>
+      <author>simar</author>
+    </item>
+
     <item>
       <title>Fictober</title>
       <link>https://laguna-dream.github.io/writing/floaters.html</link>
@@ -10,7 +19,6 @@
       <pubDate>Thu, 08 Oct 2026 21:29:17 GMT</pubDate>
       <author>simar</author>
     </item>
-
     <item>
       <title>how to take your mind off something</title>
       <link>https://laguna-dream.github.io/writing/takeyourmind.html</link>
